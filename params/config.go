@@ -48,8 +48,6 @@ var CheckpointOracles = map[common.Hash]*CheckpointOracleConfig{
 func newUint64(val uint64) *uint64 { return &val }
 
 var (
-	MainnetTerminalTotalDifficulty, _ = big.NewInt(0)
-
 	// MainnetChainConfig is the chain parameters to run a node on the main network.
 	MainnetChainConfig = &ChainConfig{
 		ChainID:                       big.NewInt(279),
@@ -66,7 +64,7 @@ var (
 		MuirGlacierBlock:              big.NewInt(0),
 		BerlinBlock:                   big.NewInt(0),
 		LondonBlock:                   big.NewInt(0),
-		TerminalTotalDifficulty:       MainnetTerminalTotalDifficulty,
+		TerminalTotalDifficulty:       big.NewInt(0),
 		TerminalTotalDifficultyPassed: true,
 		MergeNetsplitBlock:            big.NewInt(0),
 		ShanghaiTime:                  newUint64(0),
