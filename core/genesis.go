@@ -515,11 +515,11 @@ func (g *Genesis) MustCommit(db ethdb.Database) *types.Block {
 func DefaultGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.MainnetChainConfig,
-		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
-		GasLimit:   5000,
-		Difficulty: big.NewInt(17179869184),
-		Alloc:      decodePrealloc(mainnetAllocData),
+		Nonce:      0,
+		ExtraData:  hexutil.MustDecode("0x0924b4483ec210cb0341d84383db4ee7f55323bfc5bcf969b1e1b5f2064beb87"),
+		GasLimit:   0x1c9c380,
+		Difficulty: big.NewInt(0),
+		Alloc:      make(GenesisAlloc, 0),
 	}
 }
 
@@ -528,11 +528,10 @@ func DefaultTestnetGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.TestnetChainConfig,
 		Nonce:      0,
-		ExtraData:  []byte("Sepolia, Athens, Attica, Greece!"),
+		ExtraData:  hexutil.MustDecode("0x71eb8a93d989ee02852bf8494cfddc89eee45a656b95397a8e0e1cc3bdee48f4"),
 		GasLimit:   0x1c9c380,
-		Difficulty: big.NewInt(0x20000),
-		Timestamp:  1633267481,
-		Alloc:      decodePrealloc(testnetAllocData),
+		Difficulty: big.NewInt(0),
+		Alloc:      make(GenesisAlloc, 0),
 	}
 }
 
@@ -565,16 +564,4 @@ func DeveloperGenesisBlock(period uint64, gasLimit uint64, faucet common.Address
 			faucet:                           {Balance: new(big.Int).Sub(new(big.Int).Lsh(big.NewInt(1), 256), big.NewInt(9))},
 		},
 	}
-}
-
-func decodePrealloc(data string) GenesisAlloc {
-	var p []struct{ Addr, Balance *big.Int }
-	if err := rlp.NewStream(strings.NewReader(data), 0).Decode(&p); err != nil {
-		panic(err)
-	}
-	ga := make(GenesisAlloc, len(p))
-	for _, account := range p {
-		ga[common.BigToAddress(account.Addr)] = GenesisAccount{Balance: account.Balance}
-	}
-	return ga
 }
