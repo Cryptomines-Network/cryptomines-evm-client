@@ -92,7 +92,7 @@ var (
 			Description: "Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
 		},
 		{
-			BinaryName:  "geth",
+			BinaryName:  "bpx-geth",
 			Description: "Ethereum CLI client.",
 		},
 		{
@@ -107,7 +107,7 @@ var (
 
 	// A debian package is created for all executables listed here.
 	debEthereum = debPackage{
-		Name:        "ethereum",
+		Name:        "bpx-execution-client",
 		Version:     params.Version,
 		Executables: debExecutables,
 	}
@@ -904,7 +904,7 @@ func (meta debMetadata) ExeConflicts(exe debExecutable) string {
 		// be preferred and the conflicting files should be handled via
 		// alternates. We might do this eventually but using a conflict is
 		// easier now.
-		return "ethereum, " + exe.Package()
+		return "bpx-execution-client, " + exe.Package()
 	}
 	return ""
 }
@@ -961,7 +961,7 @@ func doWindowsInstaller(cmdline []string) {
 			continue
 		}
 		allTools = append(allTools, filepath.Base(file))
-		if filepath.Base(file) == "geth.exe" {
+		if filepath.Base(file) == "bpx-geth.exe" {
 			gethTool = file
 		} else {
 			devTools = append(devTools, file)
