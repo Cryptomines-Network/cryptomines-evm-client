@@ -14,6 +14,7 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk"
   Delete "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk"
   Delete "$SMPROGRAMS\${APPNAME}\Attach.lnk"
+  Delete "$SMPROGRAMS\${APPNAME}\Attach (Testnet).lnk"
   Delete "$SMPROGRAMS\${APPNAME}\Uninstall.lnk"
   rmDir "$SMPROGRAMS\${APPNAME}"
 
