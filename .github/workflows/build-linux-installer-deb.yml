@@ -34,7 +34,7 @@ jobs:
 
     - name: Install build tools
       run: |
-        apt-get -yq --no-install-suggests --no-install-recommends install\
+        sudo apt-get -yq --no-install-suggests --no-install-recommends install\
           devscripts debhelper dput fakeroot
     
     - name: Install Go
