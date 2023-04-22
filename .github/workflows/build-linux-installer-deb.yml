@@ -40,7 +40,7 @@ jobs:
     - name: Build archive
       run: go run build\ci.go debsrc
       env:
-        GO111MODULE=on
+        GO111MODULE: on
     
     - name: Debug
       run: find .
