@@ -63,7 +63,7 @@ var (
 	// Files that end up in the geth*.zip archive.
 	gethArchiveFiles = []string{
 		"COPYING",
-		executablePath("geth"),
+		executablePath("bpx-geth"),
 	}
 
 	// Files that end up in the geth-alltools*.zip archive.
@@ -72,7 +72,7 @@ var (
 		executablePath("abigen"),
 		executablePath("bootnode"),
 		executablePath("evm"),
-		executablePath("geth"),
+		executablePath("bpx-geth"),
 		executablePath("rlpdump"),
 		executablePath("clef"),
 	}
