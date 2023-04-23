@@ -45,9 +45,6 @@ jobs:
       run: go run build/ci.go nsis
       env:
         GO111MODULE: on
-    
-    - name: Debug
-      run: dir /s
 
     - name: Upload Installer to artifacts
       uses: actions/upload-artifact@v3
