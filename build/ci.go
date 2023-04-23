@@ -661,7 +661,7 @@ func doDebian(cmdline []string) {
 	for _, pkg := range debPackages {
 		for distro, goboot := range debDistroGoBoots {
 			// Prepare the debian package with the go-ethereum sources.
-			meta := newDebMetadata(distro, goboot, "", env, now, pkg.Name, pkg.Version, pkg.Executables)
+			meta := newDebMetadata(distro, goboot, env, now, pkg.Name, pkg.Version, pkg.Executables)
 			pkgdir := stageDebianSource(*workdir, meta)
 
 			// Add bootstrapper Go source code
@@ -784,17 +784,13 @@ func (d debExecutable) Package() string {
 	return d.BinaryName
 }
 
-func newDebMetadata(distro, goboot, author string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
-	if author == "" {
-		// No signing key, use default author.
-		author = "BPX Network <hello@bpxchain.cc>"
-	}
+func newDebMetadata(distro, goboot, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
 	return debMetadata{
 		GoBootPackage: goboot,
 		GoBootPath:    debGoBootPaths[goboot],
 		PackageName:   name,
 		Env:           env,
-		Author:        author,
+		Author:        "BPX Network <hello@bpxchain.cc>",
 		Distro:        distro,
 		Version:       version,
 		Time:          t.Format(time.RFC1123Z),
