@@ -53,7 +53,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: bpx-installers-windows-exe-intel
-        path: ${{ github.workspace }}/*.exe
+        path: ${{ github.workspace }}/bpx-execution-client-*.exe
 
     - name: Upload release artifacts
       if: env.RELEASE == 'true'
@@ -62,4 +62,4 @@ jobs:
       run: |
         gh release upload \
           $RELEASE_TAG \
-          *.exe
+          bpx-execution-client-*.exe
