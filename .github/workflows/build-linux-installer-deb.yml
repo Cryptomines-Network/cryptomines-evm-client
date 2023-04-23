@@ -35,7 +35,7 @@ jobs:
     - name: Install build tools
       run: |
         sudo apt-get -yq --no-install-suggests --no-install-recommends install\
-          build-essential golang-go devscripts debhelper python-bzrlib python-paramiko
+          build-essential golang-go devscripts debhelper
     
     - name: Build source package
       run: go run build/ci.go debsrc -workdir ${{ github.workspace }}/dist
