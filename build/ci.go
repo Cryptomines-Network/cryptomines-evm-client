@@ -81,19 +81,19 @@ var (
 	debExecutables = []debExecutable{
 		{
 			BinaryName:  "abigen",
-			Description: "Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages.",
+			Description: "Source code generator to convert BPX contract definitions into easy to use, compile-time type-safe Go packages.",
 		},
 		{
 			BinaryName:  "bootnode",
-			Description: "Ethereum bootnode.",
+			Description: "BPX execution chain bootnode.",
 		},
 		{
 			BinaryName:  "evm",
-			Description: "Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
+			Description: "Developer utility version of the EVM that is capable of running bytecode snippets within a configurable environment and execution mode.",
 		},
 		{
 			BinaryName:  "bpx-geth",
-			Description: "Ethereum CLI client.",
+			Description: "BPX execution client.",
 		},
 		{
 			BinaryName:  "rlpdump",
@@ -101,7 +101,7 @@ var (
 		},
 		{
 			BinaryName:  "clef",
-			Description: "Ethereum account management tool.",
+			Description: "BPX account management tool.",
 		},
 	}
 
