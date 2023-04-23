@@ -50,7 +50,7 @@ jobs:
     - name: Build binary package
       run: |
         for d in dist/bpx-execution-client-*/ ; do
-          cd d
+          cd $d
           dpkg-buildpackage
           cd ../..
         done
