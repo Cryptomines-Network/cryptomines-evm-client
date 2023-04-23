@@ -48,9 +48,10 @@ jobs:
         GO111MODULE: on
     
     - name Build binary package
-      run: |
-        cd dist/bpx-execution-client-*
-        dpkg-buildpackage
+      run: cd dist/bpx-execution-client-*
+    
+    - name: Debug
+      run: pwd
 
     - name: Upload Linux artifacts
       uses: actions/upload-artifact@v3
