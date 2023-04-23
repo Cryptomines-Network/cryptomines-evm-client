@@ -37,18 +37,10 @@ jobs:
         sudo apt-get -yq --no-install-suggests --no-install-recommends install\
           build-essential golang-go devscripts debhelper
     
-    - name: Build source package
-      run: go run build/ci.go debsrc -workdir ${{ github.workspace }}/dist
+    - name: Build Debian package
+      run: go run build/ci.go deb -workdir ${{ github.workspace }}/dist
       env:
         GO111MODULE: on
-    
-    - name: Build binary package
-      run: |
-        for d in dist/bpx-execution-client-*/ ; do
-          cd $d
-          dpkg-buildpackage
-          cd ../..
-        done
 
     - name: Upload Linux artifacts
       uses: actions/upload-artifact@v3
