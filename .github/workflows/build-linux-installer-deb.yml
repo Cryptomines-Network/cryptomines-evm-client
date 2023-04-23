@@ -46,7 +46,7 @@ jobs:
       run: |
         for d in dist/bpx-execution-client-*/ ; do
           cd $d
-          dpkg-buildpackage
+          dpkg-buildpackage -Zxz
           cd ../..
         done
 
