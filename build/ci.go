@@ -117,14 +117,6 @@ var (
 		debEthereum,
 	}
 
-	// Distros for which packages are created.
-	// Note: vivid is unsupported because there is no golang-1.6 package for it.
-	// Note: the following Ubuntu releases have been officially deprecated on Launchpad:
-	//   wily, yakkety, zesty, artful, cosmic, disco, eoan, groovy, hirsuite, impish
-	debDistroGoBoots = map[string]string{
-		"":   "golang-go",
-	}
-
 	debGoBootPaths = map[string]string{
 		"golang-go":   "/usr/lib/go",
 	}
@@ -668,49 +660,47 @@ func doDebianSource(cmdline []string) {
 
 	// Create Debian packages and upload them.
 	for _, pkg := range debPackages {
-		for distro, goboot := range debDistroGoBoots {
-			// Prepare the debian package with the go-ethereum sources.
-			meta := newDebMetadata(distro, goboot, *signer, env, now, pkg.Name, pkg.Version, pkg.Executables)
-			pkgdir := stageDebianSource(*workdir, meta)
-
-			// Add bootstrapper Go source code
-			if err := build.ExtractArchive(gobootbundle, pkgdir); err != nil {
-				log.Fatalf("Failed to extract bootstrapper Go sources: %v", err)
-			}
-			if err := os.Rename(filepath.Join(pkgdir, "go"), filepath.Join(pkgdir, ".goboot")); err != nil {
-				log.Fatalf("Failed to rename bootstrapper Go source folder: %v", err)
-			}
-			// Add builder Go source code
-			if err := build.ExtractArchive(gobundle, pkgdir); err != nil {
-				log.Fatalf("Failed to extract builder Go sources: %v", err)
-			}
-			if err := os.Rename(filepath.Join(pkgdir, "go"), filepath.Join(pkgdir, ".go")); err != nil {
-				log.Fatalf("Failed to rename builder Go source folder: %v", err)
-			}
-			// Add all dependency modules in compressed form
-			os.MkdirAll(filepath.Join(pkgdir, ".mod", "cache"), 0755)
-			if err := cp.CopyAll(filepath.Join(pkgdir, ".mod", "cache", "download"), filepath.Join(*workdir, "modgopath", "pkg", "mod", "cache", "download")); err != nil {
-				log.Fatalf("Failed to copy Go module dependencies: %v", err)
-			}
-			// Run the packaging and upload to the PPA
-			debuild := exec.Command("debuild", "-S", "-sa", "-us", "-uc", "-d", "-Zxz", "-nc")
-			debuild.Dir = pkgdir
-			build.MustRun(debuild)
-
-			var (
-				basename  = fmt.Sprintf("%s_%s", meta.Name(), meta.VersionString())
-				source    = filepath.Join(*workdir, basename+".tar.xz")
-				dsc       = filepath.Join(*workdir, basename+".dsc")
-				changes   = filepath.Join(*workdir, basename+"_source.changes")
-				buildinfo = filepath.Join(*workdir, basename+"_source.buildinfo")
-			)
-			if *signer != "" {
-				build.MustRunCommand("debsign", changes)
-			}
-			if *upload != "" {
-				ppaUpload(*workdir, *upload, *sshUser, []string{source, dsc, changes, buildinfo})
-			}
-		}
+    	// Prepare the debian package with the go-ethereum sources.
+    	meta := newDebMetadata("golang-go", *signer, env, now, pkg.Name, pkg.Version, pkg.Executables)
+    	pkgdir := stageDebianSource(*workdir, meta)
+    
+    	// Add bootstrapper Go source code
+    	if err := build.ExtractArchive(gobootbundle, pkgdir); err != nil {
+    		log.Fatalf("Failed to extract bootstrapper Go sources: %v", err)
+    	}
+    	if err := os.Rename(filepath.Join(pkgdir, "go"), filepath.Join(pkgdir, ".goboot")); err != nil {
+    		log.Fatalf("Failed to rename bootstrapper Go source folder: %v", err)
+    	}
+    	// Add builder Go source code
+    	if err := build.ExtractArchive(gobundle, pkgdir); err != nil {
+    		log.Fatalf("Failed to extract builder Go sources: %v", err)
+    	}
+    	if err := os.Rename(filepath.Join(pkgdir, "go"), filepath.Join(pkgdir, ".go")); err != nil {
+    		log.Fatalf("Failed to rename builder Go source folder: %v", err)
+    	}
+    	// Add all dependency modules in compressed form
+    	os.MkdirAll(filepath.Join(pkgdir, ".mod", "cache"), 0755)
+    	if err := cp.CopyAll(filepath.Join(pkgdir, ".mod", "cache", "download"), filepath.Join(*workdir, "modgopath", "pkg", "mod", "cache", "download")); err != nil {
+    		log.Fatalf("Failed to copy Go module dependencies: %v", err)
+    	}
+    	// Run the packaging and upload to the PPA
+    	debuild := exec.Command("debuild", "-S", "-sa", "-us", "-uc", "-d", "-Zxz", "-nc")
+    	debuild.Dir = pkgdir
+    	build.MustRun(debuild)
+    
+    	var (
+    		basename  = fmt.Sprintf("%s_%s", meta.Name(), meta.VersionString())
+    		source    = filepath.Join(*workdir, basename+".tar.xz")
+    		dsc       = filepath.Join(*workdir, basename+".dsc")
+    		changes   = filepath.Join(*workdir, basename+"_source.changes")
+    		buildinfo = filepath.Join(*workdir, basename+"_source.buildinfo")
+    	)
+    	if *signer != "" {
+    		build.MustRunCommand("debsign", changes)
+    	}
+    	if *upload != "" {
+    		ppaUpload(*workdir, *upload, *sshUser, []string{source, dsc, changes, buildinfo})
+    	}
 	}
 }
 
@@ -810,7 +800,7 @@ type debMetadata struct {
 	Version string
 
 	Author       string // "name <email>", also selects signing key
-	Distro, Time string
+	Time         string
 	Executables  []debExecutable
 }
 
@@ -829,7 +819,7 @@ func (d debExecutable) Package() string {
 	return d.BinaryName
 }
 
-func newDebMetadata(distro, goboot, author string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
+func newDebMetadata(goboot, author string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
 	if author == "" {
 		// No signing key, use default author.
 		author = "BPX Network <hello@bpxchain.cc>"
@@ -840,7 +830,6 @@ func newDebMetadata(distro, goboot, author string, env build.Environment, t time
 		PackageName:   name,
 		Env:           env,
 		Author:        author,
-		Distro:        distro,
 		Version:       version,
 		Time:          t.Format(time.RFC1123Z),
 		Executables:   exes,
@@ -861,9 +850,6 @@ func (meta debMetadata) VersionString() string {
 	vsn := meta.Version
 	if meta.Env.Buildnum != "" {
 		vsn += "+build" + meta.Env.Buildnum
-	}
-	if meta.Distro != "" {
-		vsn += "+" + meta.Distro
 	}
 	return vsn
 }
