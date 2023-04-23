@@ -1,4 +1,4 @@
-{{.Name}} ({{.VersionString}}) {{.Distro}}; urgency=low
+{{.Name}} ({{.VersionString}}); urgency=low
 
   * git build of {{.Env.Commit}}
 
