@@ -43,7 +43,7 @@ jobs:
         go-version: "^1.20"
     
     - name: Build archive
-      run: go run build/ci.go debsrc -workdir dist
+      run: go run build/ci.go debsrc -workdir ${{ github.workspace }}/dist
       env:
         GO111MODULE: on
     
