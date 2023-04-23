@@ -49,8 +49,11 @@ jobs:
     
     - name: Build binary package
       run: |
-        cd dist/bpx-execution-client-*
-        dpkg-buildpackage
+        for d in dist/bpx-execution-client-*/ ; do
+          cd d
+          dpkg-buildpackage
+          cd ../..
+        done
 
     - name: Upload Linux artifacts
       uses: actions/upload-artifact@v3
