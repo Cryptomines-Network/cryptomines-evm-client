@@ -784,7 +784,7 @@ func (d debExecutable) Package() string {
 	return d.BinaryName
 }
 
-func newDebMetadata(distro, goboot, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
+func newDebMetadata(distro string, goboot string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
 	return debMetadata{
 		GoBootPackage: goboot,
 		GoBootPath:    debGoBootPaths[goboot],
