@@ -25,13 +25,13 @@ var MainnetBootnodes = []string{
 
 // TestnetBootnodes are the enode URLs of the P2P bootstrap nodes running on the test network.
 var TestnetBootnodes = []string{
-	"enode://9246d00bc8fd1742e5ad2428b80fc4dc45d786283e05ef6edbd9002cbc335d40998444732fbe921cb88e1d2c73d1b1de53bae6a2237996e9bfe14f871baf7066@18.168.182.86:30303",
+	"enode://c5754fd34499829bc08e7886b68f7484041e93ff45c5a67ba148fabd57a9ca2e0f361595f21ac92c165666674cf66c47b97c44e584ac25ff608f3d809dfb13f0@31.192.239.6:30303",
 }
 
 var V5Bootnodes = []string{
 }
 
-const dnsPrefix = "enrtree://AKA3AM6LPBYEUDMVNU3BSVQJ5AD45Y7YPOHJLEF6W26QOE4VTUDPE@"
+const dnsPrefix = "enrtree://APPP5TMYEINO4O5JHEHQWDJR3WVNB4QKO7YJERUKFA4EKP7YJ76A4@"
 
 // KnownDNSNetwork returns the address of a public DNS-based node list for the given
 // genesis hash and protocol. See https://github.com/ethereum/discv4-dns-lists for more
