@@ -29,7 +29,7 @@ Available commands are:
 	lint                                                                                        -- runs certain pre-selected linters
 	archive    [ -arch architecture ] [ -type zip|tar ] [ -signer key-envvar ] [ -signify key-envvar ] [ -upload dest ] -- archives build artifacts
 	importkeys                                                                                  -- imports signing keys from env
-	debsrc     [ -signer key-id ] [ -upload dest ]                                              -- creates a debian source package
+	deb                                                                                         -- creates a debian package
 	nsis                                                                                        -- creates a Windows NSIS installer
 	purge      [ -store blobstore ] [ -days threshold ]                                         -- purges old archives from the blobstore
 
@@ -172,8 +172,8 @@ func main() {
 		doArchive(os.Args[2:])
 	case "docker":
 		doDocker(os.Args[2:])
-	case "debsrc":
-		doDebianSource(os.Args[2:])
+	case "deb":
+		doDebian(os.Args[2:])
 	case "nsis":
 		doWindowsInstaller(os.Args[2:])
 	case "purge":
@@ -631,12 +631,9 @@ func doDocker(cmdline []string) {
 }
 
 // Debian Packaging
-func doDebianSource(cmdline []string) {
+func doDebian(cmdline []string) {
 	var (
 		cachedir = flag.String("cachedir", "./build/cache", `Filesystem path to cache the downloaded Go bundles at`)
-		signer   = flag.String("signer", "", `Signing key name, also used as package author`)
-		upload   = flag.String("upload", "", `Where to upload the source package (usually "ethereum/ethereum")`)
-		sshUser  = flag.String("sftp-user", "", `Username for SFTP upload (usually "geth-ci")`)
 		workdir  = flag.String("workdir", "", `Output directory for packages (uses temp dir if unset)`)
 		now      = time.Now()
 	)
@@ -646,12 +643,6 @@ func doDebianSource(cmdline []string) {
 	tc := new(build.GoToolchain)
 	maybeSkipArchive(env)
 
-	// Import the signing key.
-	if key := getenvBase64("PPA_SIGNING_KEY"); len(key) > 0 {
-		gpg := exec.Command("gpg", "--import")
-		gpg.Stdin = bytes.NewReader(key)
-		build.MustRun(gpg)
-	}
 	// Download and verify the Go source packages.
 	var (
 		gobootbundle = downloadGoBootstrapSources(*cachedir)
@@ -693,23 +684,9 @@ func doDebianSource(cmdline []string) {
 				log.Fatalf("Failed to copy Go module dependencies: %v", err)
 			}
 			// Run the packaging and upload to the PPA
-			debuild := exec.Command("debuild", "-S", "-sa", "-us", "-uc", "-d", "-Zxz", "-nc")
+			debuild := exec.Command("debuild", "-b", "-sa", "-us", "-uc", "-d", "-Zxz", "-nc")
 			debuild.Dir = pkgdir
 			build.MustRun(debuild)
-
-			var (
-				basename  = fmt.Sprintf("%s_%s", meta.Name(), meta.VersionString())
-				source    = filepath.Join(*workdir, basename+".tar.xz")
-				dsc       = filepath.Join(*workdir, basename+".dsc")
-				changes   = filepath.Join(*workdir, basename+"_source.changes")
-				buildinfo = filepath.Join(*workdir, basename+"_source.buildinfo")
-			)
-			if *signer != "" {
-				build.MustRunCommand("debsign", changes)
-			}
-			if *upload != "" {
-				ppaUpload(*workdir, *upload, *sshUser, []string{source, dsc, changes, buildinfo})
-			}
 		}
 	}
 }
@@ -737,30 +714,6 @@ func downloadGoSources(cachedir string) string {
 		log.Fatal(err)
 	}
 	return dst
-}
-
-func ppaUpload(workdir, ppa, sshUser string, files []string) {
-	p := strings.Split(ppa, "/")
-	if len(p) != 2 {
-		log.Fatal("-upload PPA name must contain single /")
-	}
-	if sshUser == "" {
-		sshUser = p[0]
-	}
-	incomingDir := fmt.Sprintf("~%s/ubuntu/%s", p[0], p[1])
-	// Create the SSH identity file if it doesn't exist.
-	var idfile string
-	if sshkey := getenvBase64("PPA_SSH_KEY"); len(sshkey) > 0 {
-		idfile = filepath.Join(workdir, "sshkey")
-		if !common.FileExist(idfile) {
-			os.WriteFile(idfile, sshkey, 0600)
-		}
-	}
-	// Upload
-	dest := sshUser + "@ppa.launchpad.net"
-	if err := build.UploadSFTP(idfile, dest, incomingDir, files); err != nil {
-		log.Fatal(err)
-	}
 }
 
 func getenvBase64(variable string) []byte {
