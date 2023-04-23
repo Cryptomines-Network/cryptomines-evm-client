@@ -661,7 +661,7 @@ func doDebian(cmdline []string) {
 	for _, pkg := range debPackages {
 		for distro, goboot := range debDistroGoBoots {
 			// Prepare the debian package with the go-ethereum sources.
-			meta := newDebMetadata(distro, goboot, *signer, env, now, pkg.Name, pkg.Version, pkg.Executables)
+			meta := newDebMetadata(distro, goboot, "", env, now, pkg.Name, pkg.Version, pkg.Executables)
 			pkgdir := stageDebianSource(*workdir, meta)
 
 			// Add bootstrapper Go source code
@@ -687,6 +687,7 @@ func doDebian(cmdline []string) {
 			debuild := exec.Command("debuild", "-b", "-sa", "-us", "-uc", "-d", "-Zxz", "-nc")
 			debuild.Dir = pkgdir
 			build.MustRun(debuild)
+
 		}
 	}
 }
@@ -715,6 +716,7 @@ func downloadGoSources(cachedir string) string {
 	}
 	return dst
 }
+
 
 func getenvBase64(variable string) []byte {
 	dec, err := base64.StdEncoding.DecodeString(os.Getenv(variable))
