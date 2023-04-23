@@ -10,16 +10,7 @@ Vcs-Browser: https://github.com/bpx-network/bpx-execution-client
 
 Package: {{.Name}}
 Architecture: any
-Depends: ${misc:Depends}, {{.ExeList}}
-Description: Meta-package to install bpx-geth and other tools
- Meta-package to install bpx-geth and other tools
-
-{{range .Executables}}
-Package: {{$.ExeName .}}
-Conflicts: {{$.ExeConflicts .}}
-Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Built-Using: ${misc:Built-Using}
-Description: {{.Description}}
- {{.Description}}
-{{end}}
+Description: BPX Execution Client
+ BPX Execution Client
