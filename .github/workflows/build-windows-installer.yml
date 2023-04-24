@@ -57,6 +57,4 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh release upload \
-          ${GITHUB_REF#refs/*/} \
-          bpx-execution-client-*.exe
+        gh release upload ${GITHUB_REF#refs/*/} bpx-execution-client-*.exe
