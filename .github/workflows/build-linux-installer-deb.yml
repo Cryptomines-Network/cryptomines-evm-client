@@ -31,6 +31,9 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v1
+    
+    - name: Debug
+      run: ls -al
 
     - name: Install build tools
       run: |
