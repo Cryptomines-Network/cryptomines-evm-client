@@ -24,6 +24,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+    "log"
 )
 
 var (
@@ -100,8 +101,10 @@ func LocalEnv() Environment {
 	env := applyEnvFlags(Environment{Name: "local", Repo: "bpx-network/bpx-execution-client"})
 
 	head := readGitFile("HEAD")
+    log.Printf("head %q", head)
 	if fields := strings.Fields(head); len(fields) == 2 {
 		head = fields[1]
+        log.Printf("head %q", head)
 	} else {
 		// In this case we are in "detached head" state
 		// see: https://git-scm.com/docs/git-checkout#_detached_head
@@ -110,10 +113,12 @@ func LocalEnv() Environment {
 		if commit := commitRe.FindString(head); commit != "" && env.Commit == "" {
 			env.Commit = commit
 		}
+        log.Printf("detached head")
 		return env
 	}
 	if env.Commit == "" {
 		env.Commit = readGitFile(head)
+        log.Printf("commit %q", env.Commit)
 	}
 	env.Date = getDate(env.Commit)
 	if env.Branch == "" {
