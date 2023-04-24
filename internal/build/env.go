@@ -114,6 +114,10 @@ func LocalEnv() Environment {
 			env.Commit = commit
 		}
         log.Printf("detached head")
+        if info, err := os.Stat(".git/objects"); err == nil && info.IsDir() && env.Tag == "" {
+		    env.Tag = firstLine(RunGit("tag", "-l", "--points-at", "HEAD"))
+            log.Printf("tag %q", env.Tag)
+	    }
 		return env
 	}
 	if env.Commit == "" {

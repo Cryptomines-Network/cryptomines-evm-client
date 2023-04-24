@@ -31,6 +31,9 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+    
+    - name: Prepare repository
+      run: git checkout "${GITHUB_REF:11}"
 
     - name: Install build tools
       run: |
