@@ -108,7 +108,7 @@ var (
 	// A debian package is created for all executables listed here.
 	debEthereum = debPackage{
 		Name:        "bpx-execution-client",
-		Version:     params.Version,
+		Version:     params.VersionWithMeta,
 		Executables: debExecutables,
 	}
 
@@ -929,7 +929,7 @@ func doWindowsInstaller(cmdline []string) {
 	// Build the installer. This assumes that all the needed files have been previously
 	// built (don't mix building and packaging to keep cross compilation complexity to a
 	// minimum).
-	version := strings.Split(params.Version, ".")
+	version := strings.Split(params.VersionWithMeta, ".")
 	if env.Commit != "" {
 		version[2] += "-" + env.Commit[:8]
 	}
