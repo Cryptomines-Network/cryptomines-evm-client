@@ -53,10 +53,10 @@ jobs:
         path: ${{ github.workspace }}/bpx-execution-client-*.exe
 
     - name: Upload release artifacts
-      if: env.RELEASE == 'true'
+      if: github.event_name == 'release'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         gh release upload \
-          $RELEASE_TAG \
+          ${GITHUB_REF#refs/*/} \
           bpx-execution-client-*.exe

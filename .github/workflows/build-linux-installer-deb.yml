@@ -49,10 +49,10 @@ jobs:
         path: ${{ github.workspace }}/dist/*.deb
 
     - name: Upload release artifacts
-      if: env.RELEASE == 'true'
+      if: github.event_name == 'release'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         gh release upload \
-          $RELEASE_TAG \
+          ${GITHUB_REF#refs/*/} \
           dist/*.deb
