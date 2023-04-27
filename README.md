@@ -41,6 +41,8 @@ make all
 
 ## Usage
 
+> :warning: **You need both [Beacon Client](https://github.com/bpx-network/bpx-beacon-client) and Execution Client to synchronize with the network.**
+
 ### Windows
 1. Find the "BPX Execution Client" group in the Start Menu.
 2. Use the shortcut "BPX Execution Client" to run a mainnet full node, or "BPX Execution Client (Testnet)" to run a testnet full node
