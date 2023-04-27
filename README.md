@@ -52,6 +52,14 @@ bpx-geth --syncmode full --http --authrpc.addr localhost --authrpc.port 8551 --a
 ```shell
 bpx-geth --testnet --syncmode full --http --authrpc.addr localhost --authrpc.port 8551 --authrpc.vhosts localhost
 ```
+3. To attach to the mainnet node console use the following command:
+```shell
+bpx-geth attach
+```
+4. To attach to the testnet node console use the following command:
+```shell
+bpx-geth attach --datadir ~/.bpx/execution/testnet
+```
 
 The BPX Execution Client comes with several wrappers/executables found in the `cmd`
 directory.
