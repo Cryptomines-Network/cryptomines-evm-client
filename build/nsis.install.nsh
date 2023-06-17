@@ -19,8 +19,8 @@ Section "Geth" GETH_IDX
 
   # Create start menu launcher
   createDirectory "$SMPROGRAMS\${APPNAME}"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\bpx-geth.exe" "--syncmode full --http --authrpc.addr localhost --authrpc.port 8551 --authrpc.vhosts localhost"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk" "$INSTDIR\bpx-geth.exe" "--testnet --syncmode full --http --authrpc.addr localhost --authrpc.port 8551 --authrpc.vhosts localhost"
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\bpx-geth.exe" "--syncmode snap --http"
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk" "$INSTDIR\bpx-geth.exe" "--testnet --syncmode snap --http"
   createShortCut "$SMPROGRAMS\${APPNAME}\Attach.lnk" "$INSTDIR\bpx-geth.exe" "attach"
   createShortCut "$SMPROGRAMS\${APPNAME}\Attach (Testnet).lnk" "$INSTDIR\bpx-geth.exe" 'attach --datadir "$PROFILE\.bpx\execution\testnet"'
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"

@@ -50,11 +50,11 @@ make all
 ### Linux
 1. To run mainnet full node use the following command:
 ```shell
-bpx-geth --syncmode full --http --authrpc.addr localhost --authrpc.port 8551 --authrpc.vhosts localhost
+bpx-geth --syncmode snap --http
 ```
 2. To run testnet full node use the following command:
 ```shell
-bpx-geth --testnet --syncmode full --http --authrpc.addr localhost --authrpc.port 8551 --authrpc.vhosts localhost
+bpx-geth --testnet --syncmode snap --http
 ```
 3. To attach to the mainnet node console use the following command:
 ```shell
