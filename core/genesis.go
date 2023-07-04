@@ -514,7 +514,7 @@ func DefaultGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.MainnetChainConfig,
 		Nonce:      0,
-		ExtraData:  hexutil.MustDecode("0x0924b4483ec210cb0341d84383db4ee7f55323bfc5bcf969b1e1b5f2064beb87"),
+		ExtraData:  hexutil.MustDecode("0x35d3d43f79dfa6fda6a05bba1574375a87e8ead357abc4b9bc2df5886a970cc5"),
 		GasLimit:   0x1c9c380,
 		Difficulty: big.NewInt(0),
 		Alloc:      make(GenesisAlloc, 0),
@@ -526,7 +526,7 @@ func DefaultTestnetGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.TestnetChainConfig,
 		Nonce:      0,
-		ExtraData:  hexutil.MustDecode("0x71eb8a93d989ee02852bf8494cfddc89eee45a656b95397a8e0e1cc3bdee48f4"),
+		ExtraData:  hexutil.MustDecode("0x3dfe936725fe90eaa5d995e5b6aa29b0d7ce4634582e42efb73ee67992fecde3"),
 		GasLimit:   0x1c9c380,
 		Difficulty: big.NewInt(0),
 		Alloc:      make(GenesisAlloc, 0),
