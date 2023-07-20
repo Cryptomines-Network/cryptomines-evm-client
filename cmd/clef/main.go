@@ -1073,7 +1073,7 @@ func GenDoc(ctx *cli.Context) error {
 		b    = common.HexToAddress("0x1111111122222222222233333333334444444444")
 		meta = core.Metadata{
 			Scheme:    "http",
-			Local:     "localhost:8545",
+			Local:     "localhost:4445",
 			Origin:    "www.malicious.ru",
 			Remote:    "localhost:9999",
 			UserAgent: "Firefox 3.2",

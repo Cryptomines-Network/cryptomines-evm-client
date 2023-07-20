@@ -26,14 +26,14 @@ Section "Geth" GETH_IDX
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 
   # Firewall - remove rules (if exists)
-  SimpleFC::AdvRemoveRule "BPX Execution Client incoming peers (TCP:30303)"
-  SimpleFC::AdvRemoveRule "BPX Execution Client outgoing peers (TCP:30303)"
-  SimpleFC::AdvRemoveRule "BPX Execution Client UDP discovery (UDP:30303)"
+  SimpleFC::AdvRemoveRule "BPX Execution Client incoming peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "BPX Execution Client outgoing peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "BPX Execution Client UDP discovery (UDP:44303)"
 
   # Firewall - add rules
-  SimpleFC::AdvAddRule "BPX Execution Client incoming peers (TCP:30303)" ""  6 1 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" 30303 "" "" ""
-  SimpleFC::AdvAddRule "BPX Execution Client outgoing peers (TCP:30303)" ""  6 2 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" "" 30303 "" ""
-  SimpleFC::AdvAddRule "BPX Execution Client UDP discovery (UDP:30303)" "" 17 2 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" "" 30303 "" ""
+  SimpleFC::AdvAddRule "BPX Execution Client incoming peers (TCP:44303)" ""  6 1 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" 44303 "" "" ""
+  SimpleFC::AdvAddRule "BPX Execution Client outgoing peers (TCP:44303)" ""  6 2 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" "" 44303 "" ""
+  SimpleFC::AdvAddRule "BPX Execution Client UDP discovery (UDP:44303)" "" 17 2 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" "" 44303 "" ""
 
   # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
   ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\geth.ipc"

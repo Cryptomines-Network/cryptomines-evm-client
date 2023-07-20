@@ -22,7 +22,7 @@ FROM alpine:latest
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /go-ethereum/build/bin/bpx-geth /usr/local/bin/
 
-EXPOSE 8545 8546 30303 30303/udp
+EXPOSE 4445 8546 44303 44303/udp
 ENTRYPOINT ["geth"]
 
 # Add some metadata labels to help programatic image consumption
