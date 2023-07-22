@@ -28,6 +28,7 @@ clean:
 
 # The devtools target installs tools required for 'go generate'.
 # You need to put $GOBIN (or $GOPATH/bin) in your PATH to use 'go generate'.
+#
 
 devtools:
 	env GOBIN= go install golang.org/x/tools/cmd/stringer@latest
