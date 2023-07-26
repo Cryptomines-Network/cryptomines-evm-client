@@ -29,8 +29,8 @@
 # - sign installer
 CRCCheck on
 
-!define GROUPNAME "BPX Execution Client"
-!define APPNAME "BPX Execution Client"
+!define GROUPNAME "Cryptomines Execution Client"
+!define APPNAME "Cryptomines Execution Client"
 !define DESCRIPTION "Official Go implementation of the Ethereum protocol"
 !addplugindir .\
 

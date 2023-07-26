@@ -48,5 +48,5 @@ func KnownDNSNetwork(genesis common.Hash, protocol string) string {
 	default:
 		return ""
 	}
-	return dnsPrefix + protocol + ".disco." + net + ".bpxchain.cc"
+	return dnsPrefix + protocol + ".disco." + net + ".kopalniekrypto.pl"
 }

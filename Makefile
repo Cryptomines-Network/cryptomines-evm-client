@@ -9,9 +9,9 @@ GO ?= latest
 GORUN = env GO111MODULE=on go run
 
 geth:
-	$(GORUN) build/ci.go install ./cmd/bpx-geth
+	$(GORUN) build/ci.go install ./cmd/cryptomines-geth
 	@echo "Done building."
-	@echo "Run \"$(GOBIN)/bpx-geth\" to launch bpx-geth."
+	@echo "Run \"$(GOBIN)/cryptomines-geth\" to launch cryptomines-geth."
 
 all:
 	$(GORUN) build/ci.go install

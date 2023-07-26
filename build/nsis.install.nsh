@@ -1,11 +1,11 @@
-Name "BPX Execution Client ${MAJORVERSION}.${MINORVERSION}.${BUILDVERSION}" # VERSION variables set through command line arguments
+Name "Cryptomines Execution Client ${MAJORVERSION}.${MINORVERSION}.${BUILDVERSION}" # VERSION variables set through command line arguments
 InstallDir "$InstDir"
 OutFile "${OUTPUTFILE}" # set through command line arguments
 
 # Links for "Add/Remove Programs"
-!define HELPURL "https://github.com/bpx-network/bpx-execution-client/issues"
-!define UPDATEURL "https://github.com/bpx-network/bpx-execution-client/releases"
-!define ABOUTURL "https://github.com/bpx-network/bpx-execution-client"
+!define HELPURL "https://github.com/Cryptomines-Network/cryptomines-execution-client/issues"
+!define UPDATEURL "https://github.com/Cryptomines-Network/cryptomines-execution-client/releases"
+!define ABOUTURL "https://github.com/Cryptomines-Network/cryptomines-execution-client"
 !define /date NOW "%Y%m%d"
 
 PageEx license
@@ -19,21 +19,21 @@ Section "Geth" GETH_IDX
 
   # Create start menu launcher
   createDirectory "$SMPROGRAMS\${APPNAME}"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\bpx-geth.exe" "--syncmode snap --http"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk" "$INSTDIR\bpx-geth.exe" "--testnet --syncmode snap --http"
-  createShortCut "$SMPROGRAMS\${APPNAME}\Attach.lnk" "$INSTDIR\bpx-geth.exe" "attach"
-  createShortCut "$SMPROGRAMS\${APPNAME}\Attach (Testnet).lnk" "$INSTDIR\bpx-geth.exe" 'attach --datadir "$PROFILE\.bpx\execution\testnet"'
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\cryptomines-geth.exe" "--syncmode snap --http"
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk" "$INSTDIR\cryptomines-geth.exe" "--testnet --syncmode snap --http"
+  createShortCut "$SMPROGRAMS\${APPNAME}\Attach.lnk" "$INSTDIR\cryptomines-geth.exe" "attach"
+  createShortCut "$SMPROGRAMS\${APPNAME}\Attach (Testnet).lnk" "$INSTDIR\cryptomines-geth.exe" 'attach --datadir "$PROFILE\.cryptomines\execution\testnet"'
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 
   # Firewall - remove rules (if exists)
-  SimpleFC::AdvRemoveRule "BPX Execution Client incoming peers (TCP:44303)"
-  SimpleFC::AdvRemoveRule "BPX Execution Client outgoing peers (TCP:44303)"
-  SimpleFC::AdvRemoveRule "BPX Execution Client UDP discovery (UDP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Execution Client incoming peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Execution Client outgoing peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Execution Client UDP discovery (UDP:44303)"
 
   # Firewall - add rules
-  SimpleFC::AdvAddRule "BPX Execution Client incoming peers (TCP:44303)" ""  6 1 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" 44303 "" "" ""
-  SimpleFC::AdvAddRule "BPX Execution Client outgoing peers (TCP:44303)" ""  6 2 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" "" 44303 "" ""
-  SimpleFC::AdvAddRule "BPX Execution Client UDP discovery (UDP:44303)" "" 17 2 1 2147483647 1 "$INSTDIR\bpx-geth.exe" "" "" "BPX Execution Client" "" 44303 "" ""
+  SimpleFC::AdvAddRule "Cryptomines Execution Client incoming peers (TCP:44303)" ""  6 1 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" 44303 "" "" ""
+  SimpleFC::AdvAddRule "Cryptomines Execution Client outgoing peers (TCP:44303)" ""  6 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" "" 44303 "" ""
+  SimpleFC::AdvAddRule "Cryptomines Execution Client UDP discovery (UDP:44303)" "" 17 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" "" 44303 "" ""
 
   # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
   ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\geth.ipc"
