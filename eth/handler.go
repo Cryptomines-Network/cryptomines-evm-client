@@ -195,13 +195,13 @@ func newHandler(config *handlerConfig) (*handler, error) {
 	h.downloader = downloader.New(h.checkpointNumber, config.Database, h.eventMux, h.chain, nil, h.removePeer, success)
 	if ttd := h.chain.Config().TerminalTotalDifficulty; ttd != nil {
 		if h.chain.Config().TerminalTotalDifficultyPassed {
-			log.Info("Chain post-merge, sync via beacon client")
+			log.Info("Chain post-merge, sync via cryptomines blockchain")
 		} else {
 			head := h.chain.CurrentBlock()
 			if td := h.chain.GetTd(head.Hash(), head.Number.Uint64()); td.Cmp(ttd) >= 0 {
-				log.Info("Chain post-TTD, sync via beacon client")
+				log.Info("Chain post-TTD, sync via cryptomines blockchain")
 			} else {
-				log.Warn("Chain pre-merge, sync via PoW (ensure beacon client is ready)")
+				log.Warn("Chain pre-merge, sync via PoW (ensure cryptomines blockchain is ready)")
 			}
 		}
 	} else if h.chain.Config().TerminalTotalDifficultyPassed {

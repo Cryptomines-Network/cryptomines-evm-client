@@ -126,11 +126,11 @@ func (cs *chainSyncer) loop() {
 			cs.force.Reset(forceSyncCycle)
 			cs.forced = false
 
-			// If we've reached the merge transition but no beacon client is available, or
+			// If we've reached the merge transition but no cryptomines blockchain is available, or
 			// it has not yet switched us over, keep warning the user that their infra is
 			// potentially flaky.
 			if errors.Is(err, downloader.ErrMergeTransition) && time.Since(cs.warned) > 10*time.Second {
-				log.Warn("Local chain is post-merge, waiting for beacon client sync switch-over...")
+				log.Warn("Local chain is post-merge, waiting for cryptomines blockchain sync switch-over...")
 				cs.warned = time.Now()
 			}
 		case <-cs.force.C:
@@ -155,9 +155,9 @@ func (cs *chainSyncer) nextSyncOp() *chainSyncOp {
 	if cs.doneCh != nil {
 		return nil // Sync already running
 	}
-	// If a beacon client once took over control, disable the entire legacy sync
+	// If a cryptomines blockchain once took over control, disable the entire legacy sync
 	// path from here on end. Note, there is a slight "race" between reaching TTD
-	// and the beacon client taking over. The downloader will enforce that nothing
+	// and the cryptomines blockchain taking over. The downloader will enforce that nothing
 	// above the first TTD will be delivered to the chain for import.
 	//
 	// An alternative would be to check the local chain for exceeding the TTD and
@@ -188,9 +188,9 @@ func (cs *chainSyncer) nextSyncOp() *chainSyncOp {
 	if op.td.Cmp(ourTD) <= 0 {
 		// We seem to be in sync according to the legacy rules. In the merge
 		// world, it can also mean we're stuck on the merge block, waiting for
-		// a beacon client. In the latter case, notify the user.
+		// a cryptomines blockchain. In the latter case, notify the user.
 		if ttd := cs.handler.chain.Config().TerminalTotalDifficulty; ttd != nil && ourTD.Cmp(ttd) >= 0 && time.Since(cs.warned) > 10*time.Second {
-			log.Warn("Local chain is post-merge, waiting for beacon client sync switch-over...")
+			log.Warn("Local chain is post-merge, waiting for cryptomines blockchain sync switch-over...")
 			cs.warned = time.Now()
 		}
 		return nil // We're in sync

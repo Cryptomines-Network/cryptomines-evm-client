@@ -60,22 +60,22 @@ const (
 	// have lead to some bad ancestor block. It's just an OOM protection.
 	invalidTipsetsCap = 512
 
-	// beaconUpdateStartupTimeout is the time to wait for a beacon client to get
+	// beaconUpdateStartupTimeout is the time to wait for a cryptomines blockchain to get
 	// attached before starting to issue warnings.
 	beaconUpdateStartupTimeout = 30 * time.Second
 
-	// beaconUpdateExchangeTimeout is the max time allowed for a beacon client to
+	// beaconUpdateExchangeTimeout is the max time allowed for a cryptomines blockchain to
 	// do a transition config exchange before it's considered offline and the user
 	// is warned.
 	beaconUpdateExchangeTimeout = 2 * time.Minute
 
-	// beaconUpdateConsensusTimeout is the max time allowed for a beacon client
+	// beaconUpdateConsensusTimeout is the max time allowed for a cryptomines blockchain
 	// to send a consensus update before it's considered offline and the user is
 	// warned.
 	beaconUpdateConsensusTimeout = 2 * time.Minute
 
 	// beaconUpdateWarnFrequency is the frequency at which to warn the user that
-	// the beacon client is offline.
+	// the cryptomines blockchain is offline.
 	beaconUpdateWarnFrequency = 5 * time.Minute
 )
 
@@ -121,7 +121,7 @@ type ConsensusAPI struct {
 	invalidTipsets    map[common.Hash]*types.Header // Ephemeral cache to track invalid tipsets and their bad ancestor
 	invalidLock       sync.Mutex                    // Protects the invalid maps from concurrent access
 
-	// Geth can appear to be stuck or do strange things if the beacon client is
+	// Geth can appear to be stuck or do strange things if the cryptomines blockchain is
 	// offline or is sending us strange data. Stash some update stats away so
 	// that we can warn the user and not have them open issues on our tracker.
 	lastTransitionUpdate time.Time
@@ -214,7 +214,7 @@ func (api *ConsensusAPI) forkchoiceUpdated(update engine.ForkchoiceStateV1, payl
 		log.Warn("Forkchoice requested update to zero hash")
 		return engine.STATUS_INVALID, nil // TODO(karalabe): Why does someone send us this?
 	}
-	// Stash away the last update to warn the user if the beacon client goes offline
+	// Stash away the last update to warn the user if the cryptomines blockchain goes offline
 	api.lastForkchoiceLock.Lock()
 	api.lastForkchoiceUpdate = time.Now()
 	api.lastForkchoiceLock.Unlock()
@@ -262,7 +262,7 @@ func (api *ConsensusAPI) forkchoiceUpdated(update engine.ForkchoiceStateV1, payl
 		}
 		return engine.STATUS_SYNCING, nil
 	}
-	// Block is known locally, just sanity check that the beacon client does not
+	// Block is known locally, just sanity check that the cryptomines blockchain does not
 	// attempt to push us back to before the merge.
 	if block.Difficulty().BitLen() > 0 || block.NumberU64() == 0 {
 		var (
@@ -299,14 +299,14 @@ func (api *ConsensusAPI) forkchoiceUpdated(update engine.ForkchoiceStateV1, payl
 		// generating the payload. It's a special corner case that a few slots are
 		// missing and we are requested to generate the payload in slot.
 	} else {
-		// If the head block is already in our canonical chain, the beacon client is
+		// If the head block is already in our canonical chain, the cryptomines blockchain is
 		// probably resyncing. Ignore the update.
 		log.Info("Ignoring beacon update to old head", "number", block.NumberU64(), "hash", update.HeadBlockHash, "age", common.PrettyAge(time.Unix(int64(block.Time()), 0)), "have", api.eth.BlockChain().CurrentBlock().Number)
 		return valid(nil), nil
 	}
 	api.eth.SetSynced()
 
-	// If the beacon client also advertised a finalized block, mark the local
+	// If the cryptomines blockchain also advertised a finalized block, mark the local
 	// chain final and completely in PoS mode.
 	if update.FinalizedBlockHash != (common.Hash{}) {
 		if merger := api.eth.Merger(); !merger.PoSFinalized() {
@@ -339,7 +339,7 @@ func (api *ConsensusAPI) forkchoiceUpdated(update engine.ForkchoiceStateV1, payl
 		api.eth.BlockChain().SetSafe(safeBlock.Header())
 	}
 	// If payload generation was requested, create a new block to be potentially
-	// sealed by the beacon client. The payload will be requested later, and we
+	// sealed by the cryptomines blockchain. The payload will be requested later, and we
 	// will replace it arbitrarily many times in between.
 	if payloadAttributes != nil {
 		args := &miner.BuildPayloadArgs{
@@ -373,7 +373,7 @@ func (api *ConsensusAPI) ExchangeTransitionConfigurationV1(config engine.Transit
 	if config.TerminalTotalDifficulty == nil {
 		return nil, errors.New("invalid terminal total difficulty")
 	}
-	// Stash away the last update to warn the user if the beacon client goes offline
+	// Stash away the last update to warn the user if the cryptomines blockchain goes offline
 	api.lastTransitionLock.Lock()
 	api.lastTransitionUpdate = time.Now()
 	api.lastTransitionLock.Unlock()
@@ -462,7 +462,7 @@ func (api *ConsensusAPI) newPayload(params engine.ExecutableData) (engine.Payloa
 		log.Debug("Invalid NewPayload params", "params", params, "error", err)
 		return engine.PayloadStatusV1{Status: engine.INVALID}, nil
 	}
-	// Stash away the last update to warn the user if the beacon client goes offline
+	// Stash away the last update to warn the user if the cryptomines blockchain goes offline
 	api.lastNewPayloadLock.Lock()
 	api.lastNewPayloadUpdate = time.Now()
 	api.lastNewPayloadLock.Unlock()
@@ -488,7 +488,7 @@ func (api *ConsensusAPI) newPayload(params engine.ExecutableData) (engine.Payloa
 	if parent == nil {
 		return api.delayPayloadImport(block)
 	}
-	// We have an existing parent, do some sanity checks to avoid the beacon client
+	// We have an existing parent, do some sanity checks to avoid the cryptomines blockchain
 	// triggering too early
 	var (
 		ptd  = api.eth.BlockChain().GetTd(parent.Hash(), parent.NumberU64())
@@ -530,7 +530,7 @@ func (api *ConsensusAPI) newPayload(params engine.ExecutableData) (engine.Payloa
 
 		return api.invalid(err, parent.Header()), nil
 	}
-	// We've accepted a valid payload from the beacon client. Mark the local
+	// We've accepted a valid payload from the cryptomines blockchain. Mark the local
 	// chain transitions to notify other subsystems (e.g. downloader) of the
 	// behavioral change.
 	if merger := api.eth.Merger(); !merger.TDDReached() {
@@ -564,7 +564,7 @@ func (api *ConsensusAPI) delayPayloadImport(block *types.Block) (engine.PayloadS
 	}
 	// Either no beacon sync was started yet, or it rejected the delivered
 	// payload as non-integratable on top of the existing sync. We'll just
-	// have to rely on the beacon client to forcefully update the head with
+	// have to rely on the cryptomines blockchain to forcefully update the head with
 	// a forkchoice update request.
 	if api.eth.SyncMode() == downloader.FullSync {
 		// In full sync mode, failure to import a well-formed block can only mean
@@ -657,13 +657,13 @@ func (api *ConsensusAPI) invalid(err error, latestValid *types.Header) engine.Pa
 	return engine.PayloadStatusV1{Status: engine.INVALID, LatestValidHash: &currentHash, ValidationError: &errorMsg}
 }
 
-// heartbeat loops indefinitely, and checks if there have been beacon client updates
+// heartbeat loops indefinitely, and checks if there have been cryptomines blockchain updates
 // received in the last while. If not - or if they but strange ones - it warns the
 // user that something might be off with their consensus node.
 //
 // TODO(karalabe): Spin this goroutine down somehow
 func (api *ConsensusAPI) heartbeat() {
-	// Sleep a bit on startup since there's obviously no beacon client yet
+	// Sleep a bit on startup since there's obviously no cryptomines blockchain yet
 	// attached, so no need to print scary warnings to the user.
 	time.Sleep(beaconUpdateStartupTimeout)
 
@@ -692,7 +692,7 @@ func (api *ConsensusAPI) heartbeat() {
 		api.lastNewPayloadLock.Unlock()
 
 		// If there have been no updates for the past while, warn the user
-		// that the beacon client is probably offline
+		// that the cryptomines blockchain is probably offline
 		if api.eth.BlockChain().Config().TerminalTotalDifficultyPassed || api.eth.Merger().TDDReached() {
 			if time.Since(lastForkchoiceUpdate) <= beaconUpdateConsensusTimeout || time.Since(lastNewPayloadUpdate) <= beaconUpdateConsensusTimeout {
 				offlineLogged = time.Time{}
@@ -701,9 +701,9 @@ func (api *ConsensusAPI) heartbeat() {
 			if time.Since(lastTransitionUpdate) > beaconUpdateExchangeTimeout {
 				if time.Since(offlineLogged) > beaconUpdateWarnFrequency {
 					if lastTransitionUpdate.IsZero() {
-						log.Warn("Post-merge network, but no beacon client seen. Please launch one to follow the chain!")
+						log.Warn("Post-merge network, but no cryptomines blockchain seen. Please launch one to follow the chain!")
 					} else {
-						log.Warn("Previously seen beacon client is offline. Please ensure it is operational to follow the chain!")
+						log.Warn("Previously seen cryptomines blockchain is offline. Please ensure it is operational to follow the chain!")
 					}
 					offlineLogged = time.Now()
 				}
@@ -711,9 +711,9 @@ func (api *ConsensusAPI) heartbeat() {
 			}
 			if time.Since(offlineLogged) > beaconUpdateWarnFrequency {
 				if lastForkchoiceUpdate.IsZero() && lastNewPayloadUpdate.IsZero() {
-					log.Warn("Beacon client online, but never received consensus updates. Please ensure your beacon client is operational to follow the chain!")
+					log.Warn("Cryptomines blockchain online, but never received consensus updates. Please ensure your cryptomines blockchain is operational to follow the chain!")
 				} else {
-					log.Warn("Beacon client online, but no consensus updates received in a while. Please fix your beacon client to follow the chain!")
+					log.Warn("Cryptomines blockchain online, but no consensus updates received in a while. Please fix your cryptomines blockchain to follow the chain!")
 				}
 				offlineLogged = time.Now()
 			}
@@ -733,9 +733,9 @@ func (api *ConsensusAPI) heartbeat() {
 			)
 			if htd.Cmp(ttd) >= 0 {
 				if lastTransitionUpdate.IsZero() {
-					log.Warn("Merge already reached, but no beacon client seen. Please launch one to follow the chain!")
+					log.Warn("Merge already reached, but no cryptomines blockchain seen. Please launch one to follow the chain!")
 				} else {
-					log.Warn("Merge already reached, but previously seen beacon client is offline. Please ensure it is operational to follow the chain!")
+					log.Warn("Merge already reached, but previously seen cryptomines blockchain is offline. Please ensure it is operational to follow the chain!")
 				}
 				offlineLogged = time.Now()
 				continue
@@ -764,9 +764,9 @@ func (api *ConsensusAPI) heartbeat() {
 					eta = time.Duration(new(big.Int).Div(left, new(big.Int).SetUint64(growth+1)).Uint64()) * time.Second
 				}
 			}
-			message := "Merge is configured, but previously seen beacon client is offline. Please ensure it is operational before the transition arrives!"
+			message := "Merge is configured, but previously seen cryptomines blockchain is offline. Please ensure it is operational before the transition arrives!"
 			if lastTransitionUpdate.IsZero() {
-				message = "Merge is configured, but no beacon client seen. Please ensure you have one available before the transition arrives!"
+				message = "Merge is configured, but no cryptomines blockchain seen. Please ensure you have one available before the transition arrives!"
 			}
 			if eta < time.Second {
 				log.Warn(message)

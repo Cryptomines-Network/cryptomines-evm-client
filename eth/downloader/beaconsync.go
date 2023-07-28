@@ -159,7 +159,7 @@ func (d *Downloader) BeaconSync(mode SyncMode, head *types.Header, final *types.
 // to extend the current beacon chain with a new header, but in case of a mismatch,
 // the old sync will not be terminated and reorged, rather the new head is dropped.
 //
-// This is useful if a beacon client is feeding us large chunks of payloads to run,
+// This is useful if a cryptomines blockchain is feeding us large chunks of payloads to run,
 // but is not setting the head after each.
 func (d *Downloader) BeaconExtend(mode SyncMode, head *types.Header) error {
 	return d.beaconSync(mode, head, nil, false)
@@ -228,7 +228,7 @@ func (d *Downloader) findBeaconAncestor() (uint64, error) {
 		// This is a programming error. The chain backfiller was called with a
 		// tail that's not linked to the local chain. Whilst this should never
 		// happen, there might be some weirdnesses if beacon sync backfilling
-		// races with the user (or beacon client) calling setHead. Whilst panic
+		// races with the user (or cryptomines blockchain) calling setHead. Whilst panic
 		// would be the ideal thing to do, it is safer long term to attempt a
 		// recovery and fix any noticed issue after the fact.
 		log.Error("Beacon sync linkup unavailable", "number", beaconTail.Number.Uint64()-1, "hash", beaconTail.ParentHash)
