@@ -85,7 +85,7 @@ var (
 		},
 		{
 			BinaryName:  "bootnode",
-			Description: "Cryptomines execution chain bootnode.",
+			Description: "Cryptomines evm chain bootnode.",
 		},
 		{
 			BinaryName:  "evm",
