@@ -3,9 +3,9 @@ InstallDir "$InstDir"
 OutFile "${OUTPUTFILE}" # set through command line arguments
 
 # Links for "Add/Remove Programs"
-!define HELPURL "https://github.com/Cryptomines-Network/cryptomines-execution-client/issues"
-!define UPDATEURL "https://github.com/Cryptomines-Network/cryptomines-execution-client/releases"
-!define ABOUTURL "https://github.com/Cryptomines-Network/cryptomines-execution-client"
+!define HELPURL "https://github.com/Cryptomines-Network/cryptomines-evm-client/issues"
+!define UPDATEURL "https://github.com/Cryptomines-Network/cryptomines-evm-client/releases"
+!define ABOUTURL "https://github.com/Cryptomines-Network/cryptomines-evm-client"
 !define /date NOW "%Y%m%d"
 
 PageEx license

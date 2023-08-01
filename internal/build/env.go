@@ -97,7 +97,7 @@ func Env() Environment {
 
 // LocalEnv returns build environment metadata gathered from git.
 func LocalEnv() Environment {
-	env := applyEnvFlags(Environment{Name: "local", Repo: "Cryptomines-Network/cryptomines-execution-client"})
+	env := applyEnvFlags(Environment{Name: "local", Repo: "Cryptomines-Network/cryptomines-evm-client"})
 
 	head := readGitFile("HEAD")
 	if fields := strings.Fields(head); len(fields) == 2 {

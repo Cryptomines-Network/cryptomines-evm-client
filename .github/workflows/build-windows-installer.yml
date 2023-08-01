@@ -50,7 +50,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: cryptomines-installers-windows-exe-intel
-        path: ${{ github.workspace }}/cryptomines-execution-client-*.exe
+        path: ${{ github.workspace }}/cryptomines-evm-client-*.exe
 
     - name: Upload release artifacts
       if: github.event_name == 'release'
@@ -59,5 +59,5 @@ jobs:
       run: |
         gh release upload \
           ${GITHUB_REF#refs/*/} \
-          cryptomines-execution-client-*.exe
+          cryptomines-evm-client-*.exe
       shell: bash

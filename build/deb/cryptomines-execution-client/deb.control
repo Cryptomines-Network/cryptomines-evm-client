@@ -5,8 +5,8 @@ Maintainer: {{.Author}}
 Build-Depends: debhelper (>= 8.0.0), {{.GoBootPackage}}
 Standards-Version: 3.9.5
 Homepage: https://kopalniekrypto.pl/
-Vcs-Git: https://github.com/Cryptomines-Network/cryptomines-execution-client.git
-Vcs-Browser: https://github.com/Cryptomines-Network/cryptomines-execution-client
+Vcs-Git: https://github.com/Cryptomines-Network/cryptomines-evm-client.git
+Vcs-Browser: https://github.com/Cryptomines-Network/cryptomines-evm-client
 
 Package: {{.Name}}
 Architecture: any
