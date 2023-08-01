@@ -12,5 +12,5 @@ Package: {{.Name}}
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Built-Using: ${misc:Built-Using}
-Description: Cryptomines Execution Client
- Cryptomines Execution Client
+Description: Cryptomines Evm Client
+ Cryptomines Evm Client

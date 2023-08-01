@@ -19,9 +19,9 @@ Section "Uninstall"
   rmDir "$SMPROGRAMS\${APPNAME}"
 
   # Firewall - remove rules if exists
-  SimpleFC::AdvRemoveRule "Cryptomines Execution Client incoming peers (TCP:44303)"
-  SimpleFC::AdvRemoveRule "Cryptomines Execution Client outgoing peers (TCP:44303)"
-  SimpleFC::AdvRemoveRule "Cryptomines Execution Client UDP discovery (UDP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Evm Client incoming peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Evm Client outgoing peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Evm Client UDP discovery (UDP:44303)"
 
   # Remove IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
   ${un.EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\cryptomines.ipc"

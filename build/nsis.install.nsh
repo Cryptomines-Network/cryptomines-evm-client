@@ -1,4 +1,4 @@
-Name "Cryptomines Execution Client ${MAJORVERSION}.${MINORVERSION}.${BUILDVERSION}" # VERSION variables set through command line arguments
+Name "Cryptomines Evm Client ${MAJORVERSION}.${MINORVERSION}.${BUILDVERSION}" # VERSION variables set through command line arguments
 InstallDir "$InstDir"
 OutFile "${OUTPUTFILE}" # set through command line arguments
 
@@ -26,14 +26,14 @@ Section "Geth" GETH_IDX
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 
   # Firewall - remove rules (if exists)
-  SimpleFC::AdvRemoveRule "Cryptomines Execution Client incoming peers (TCP:44303)"
-  SimpleFC::AdvRemoveRule "Cryptomines Execution Client outgoing peers (TCP:44303)"
-  SimpleFC::AdvRemoveRule "Cryptomines Execution Client UDP discovery (UDP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Evm Client incoming peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Evm Client outgoing peers (TCP:44303)"
+  SimpleFC::AdvRemoveRule "Cryptomines Evm Client UDP discovery (UDP:44303)"
 
   # Firewall - add rules
-  SimpleFC::AdvAddRule "Cryptomines Execution Client incoming peers (TCP:44303)" ""  6 1 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" 44303 "" "" ""
-  SimpleFC::AdvAddRule "Cryptomines Execution Client outgoing peers (TCP:44303)" ""  6 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" "" 44303 "" ""
-  SimpleFC::AdvAddRule "Cryptomines Execution Client UDP discovery (UDP:44303)" "" 17 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" "" 44303 "" ""
+  SimpleFC::AdvAddRule "Cryptomines Evm Client incoming peers (TCP:44303)" ""  6 1 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Evm Client" 44303 "" "" ""
+  SimpleFC::AdvAddRule "Cryptomines Evm Client outgoing peers (TCP:44303)" ""  6 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Evm Client" "" 44303 "" ""
+  SimpleFC::AdvAddRule "Cryptomines Evm Client UDP discovery (UDP:44303)" "" 17 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Evm Client" "" 44303 "" ""
 
   # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
   ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\cryptomines.ipc"

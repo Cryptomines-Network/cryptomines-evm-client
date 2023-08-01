@@ -93,7 +93,7 @@ var (
 		},
 		{
 			BinaryName:  "cryptomines-geth",
-			Description: "Cryptomines execution client.",
+			Description: "Cryptomines evm client.",
 		},
 		{
 			BinaryName:  "rlpdump",
