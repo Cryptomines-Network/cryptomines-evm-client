@@ -36,8 +36,8 @@ Section "Geth" GETH_IDX
   SimpleFC::AdvAddRule "Cryptomines Execution Client UDP discovery (UDP:44303)" "" 17 2 1 2147483647 1 "$INSTDIR\cryptomines-geth.exe" "" "" "Cryptomines Execution Client" "" 44303 "" ""
 
   # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
-  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\geth.ipc"
-  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "A" "HKLM" "\\.\pipe\geth.ipc"
+  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\cryptomines.ipc"
+  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "A" "HKLM" "\\.\pipe\cryptomines.ipc"
 
   # Add instdir to PATH
   Push "$INSTDIR"

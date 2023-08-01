@@ -24,7 +24,7 @@ Section "Uninstall"
   SimpleFC::AdvRemoveRule "Cryptomines Execution Client UDP discovery (UDP:44303)"
 
   # Remove IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
-  ${un.EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\geth.ipc"
+  ${un.EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\cryptomines.ipc"
 
   # Remove install directory from PATH
   Push "$INSTDIR"
