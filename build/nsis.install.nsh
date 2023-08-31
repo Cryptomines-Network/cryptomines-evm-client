@@ -19,8 +19,8 @@ Section "Geth" GETH_IDX
 
   # Create start menu launcher
   createDirectory "$SMPROGRAMS\${APPNAME}"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\cryptomines-geth.exe" "--syncmode full"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk" "$INSTDIR\cryptomines-geth.exe" "--testnet --syncmode full"
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\cryptomines-geth.exe" "--syncmode full --http"
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} (Testnet).lnk" "$INSTDIR\cryptomines-geth.exe" "--testnet --syncmode full --http"
   createShortCut "$SMPROGRAMS\${APPNAME}\Attach.lnk" "$INSTDIR\cryptomines-geth.exe" "attach"
   createShortCut "$SMPROGRAMS\${APPNAME}\Attach (Testnet).lnk" "$INSTDIR\cryptomines-geth.exe" 'attach --datadir "$PROFILE\.cryptomines\execution\testnet"'
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe"
