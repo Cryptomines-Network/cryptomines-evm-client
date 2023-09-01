@@ -73,7 +73,7 @@ var (
 		executablePath("bootnode"),
 		executablePath("evm"),
 		executablePath("cryptomines-geth"),
-		executablePath("rlpdump"),
+		executablePath("cryptomines-rlpdump"),
 		executablePath("cryptomines-clef"),
 	}
 
@@ -96,7 +96,7 @@ var (
 			Description: "Cryptomines evm client.",
 		},
 		{
-			BinaryName:  "rlpdump",
+			BinaryName:  "cryptomines-rlpdump",
 			Description: "Developer utility tool that prints RLP structures.",
 		},
 		{
