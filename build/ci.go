@@ -70,7 +70,7 @@ var (
 	allToolsArchiveFiles = []string{
 		"COPYING",
 		executablePath("cryptomines-abigen"),
-		executablePath("bootnode"),
+		executablePath("cryptomines-bootnode"),
 		executablePath("evm"),
 		executablePath("cryptomines-geth"),
 		executablePath("cryptomines-rlpdump"),
@@ -84,7 +84,7 @@ var (
 			Description: "Source code generator to convert Cryptomines contract definitions into easy to use, compile-time type-safe Go packages.",
 		},
 		{
-			BinaryName:  "bootnode",
+			BinaryName:  "cryptomines-bootnode",
 			Description: "Cryptomines evm chain bootnode.",
 		},
 		{

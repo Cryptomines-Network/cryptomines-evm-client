@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
-// bootnode runs a bootstrap node for the Ethereum Discovery Protocol.
+// cryptomines-bootnode runs a bootstrap node for the Ethereum Discovery Protocol.
 package main
 
 import (
@@ -145,6 +145,6 @@ func printNotice(nodeKey *ecdsa.PublicKey, addr net.UDPAddr) {
 	}
 	n := enode.NewV4(nodeKey, addr.IP, 0, addr.Port)
 	fmt.Println(n.URLv4())
-	fmt.Println("Note: you're using cmd/bootnode, a developer tool.")
+	fmt.Println("Note: you're using cmd/cryptomines-bootnode, a developer tool.")
 	fmt.Println("We recommend using a regular node as bootstrap node for production deployments.")
 }
