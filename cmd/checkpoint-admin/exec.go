@@ -209,7 +209,7 @@ func sign(ctx *cli.Context) error {
 			return err
 		}
 	}
-	cryptomines - clef := newRPCClient(ctx.String(clefURLFlag.Name))
+	clef := newRPCClient(ctx.String(clefURLFlag.Name))
 	p := make(map[string]string)
 	buf := make([]byte, 8)
 	binary.BigEndian.PutUint64(buf, cindex)
@@ -217,7 +217,7 @@ func sign(ctx *cli.Context) error {
 	p["message"] = hexutil.Encode(append(buf, chash.Bytes()...))
 
 	fmt.Println("Sending signing request to Cryptomines-Clef...")
-	if err := cryptomines - clef.Call(&signature, "account_signData", accounts.MimetypeDataWithValidator, signer, p); err != nil {
+	if err := clef.Call(&signature, "account_signData", accounts.MimetypeDataWithValidator, signer, p); err != nil {
 		utils.Fatalf("Failed to sign checkpoint, err %v", err)
 	}
 	fmt.Printf("Signer     => %s\n", signer)

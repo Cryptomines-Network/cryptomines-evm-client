@@ -33,9 +33,9 @@ func TestImportRaw(t *testing.T) {
 	t.Parallel()
 	t.Run("happy-path", func(t *testing.T) {
 		// Run cryptomines-clef importraw
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
-		cryptomines - clef.input("myverylongpassword").input("myverylongpassword")
-		if out := string(cryptomines - clef.Output()); !strings.Contains(out,
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
+		clef.input("myverylongpassword").input("myverylongpassword")
+		if out := string(clef.Output()); !strings.Contains(out,
 			"Key imported:\n  Address 0x9160DC9105f7De5dC5E7f3d97ef11DA47269BdA6") {
 			t.Logf("Output\n%v", out)
 			t.Error("Failure")
@@ -44,18 +44,18 @@ func TestImportRaw(t *testing.T) {
 	// tests cryptomines-clef --importraw with mismatched passwords.
 	t.Run("pw-mismatch", func(t *testing.T) {
 		// Run cryptomines-clef importraw
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
-		cryptomines - clef.input("myverylongpassword1").input("myverylongpassword2").WaitExit()
-		if have, want := cryptomines-clef.StderrText(), "Passwords do not match\n"; have != want {
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
+		clef.input("myverylongpassword1").input("myverylongpassword2").WaitExit()
+		if have, want := clef.StderrText(), "Passwords do not match\n"; have != want {
 			t.Errorf("have %q, want %q", have, want)
 		}
 	})
 	// tests cryptomines-clef --importraw with a too short password.
 	t.Run("short-pw", func(t *testing.T) {
 		// Run cryptomines-clef importraw
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
-		cryptomines - clef.input("shorty").input("shorty").WaitExit()
-		if have, want := cryptomines-clef.StderrText(),
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
+		clef.input("shorty").input("shorty").WaitExit()
+		if have, want := clef.StderrText(),
 			"password requirements not met: password too short (<10 characters)\n"; have != want {
 			t.Errorf("have %q, want %q", have, want)
 		}
@@ -70,19 +70,19 @@ func TestListAccounts(t *testing.T) {
 
 	t.Parallel()
 	t.Run("no-accounts", func(t *testing.T) {
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "list-accounts")
-		if out := string(cryptomines - clef.Output()); !strings.Contains(out, "The keystore is empty.") {
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "list-accounts")
+		if out := string(clef.Output()); !strings.Contains(out, "The keystore is empty.") {
 			t.Logf("Output\n%v", out)
 			t.Error("Failure")
 		}
 	})
 	t.Run("one-account", func(t *testing.T) {
 		// First, we need to import
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
-		cryptomines - clef.input("myverylongpassword").input("myverylongpassword").WaitExit()
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
+		clef.input("myverylongpassword").input("myverylongpassword").WaitExit()
 		// Secondly, do a listing, using the same datadir
-		cryptomines - clef = runWithKeystore(t, cryptomines-clef.Datadir, "--suppress-bootwarn", "--lightkdf", "list-accounts")
-		if out := string(cryptomines - clef.Output()); !strings.Contains(out, "0x9160DC9105f7De5dC5E7f3d97ef11DA47269BdA6 (keystore:") {
+		clef = runWithKeystore(t, clef.Datadir, "--suppress-bootwarn", "--lightkdf", "list-accounts")
+		if out := string(clef.Output()); !strings.Contains(out, "0x9160DC9105f7De5dC5E7f3d97ef11DA47269BdA6 (keystore:") {
 			t.Logf("Output\n%v", out)
 			t.Error("Failure")
 		}
@@ -97,19 +97,19 @@ func TestListWallets(t *testing.T) {
 
 	t.Parallel()
 	t.Run("no-accounts", func(t *testing.T) {
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "list-wallets")
-		if out := string(cryptomines - clef.Output()); !strings.Contains(out, "There are no wallets.") {
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "list-wallets")
+		if out := string(clef.Output()); !strings.Contains(out, "There are no wallets.") {
 			t.Logf("Output\n%v", out)
 			t.Error("Failure")
 		}
 	})
 	t.Run("one-account", func(t *testing.T) {
 		// First, we need to import
-		cryptomines - clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
-		cryptomines - clef.input("myverylongpassword").input("myverylongpassword").WaitExit()
+		clef := runClef(t, "--suppress-bootwarn", "--lightkdf", "importraw", keyPath)
+		clef.input("myverylongpassword").input("myverylongpassword").WaitExit()
 		// Secondly, do a listing, using the same datadir
-		cryptomines - clef = runWithKeystore(t, cryptomines-clef.Datadir, "--suppress-bootwarn", "--lightkdf", "list-wallets")
-		if out := string(cryptomines - clef.Output()); !strings.Contains(out, "Account 0: 0x9160DC9105f7De5dC5E7f3d97ef11DA47269BdA6") {
+		clef = runWithKeystore(t, clef.Datadir, "--suppress-bootwarn", "--lightkdf", "list-wallets")
+		if out := string(clef.Output()); !strings.Contains(out, "Account 0: 0x9160DC9105f7De5dC5E7f3d97ef11DA47269BdA6") {
 			t.Logf("Output\n%v", out)
 			t.Error("Failure")
 		}

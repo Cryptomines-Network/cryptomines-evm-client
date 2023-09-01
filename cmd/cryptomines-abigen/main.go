@@ -89,10 +89,10 @@ func init() {
 		langFlag,
 		aliasFlag,
 	}
-	app.Action = cryptomines-abigen
+	app.Action = abigen
 }
 
-func cryptomines-abigen(c *cli.Context) error {
+func abigen(c *cli.Context) error {
 	utils.CheckExclusive(c, abiFlag, jsonFlag) // Only one source can be selected.
 
 	if c.String(pkgFlag.Name) == "" {

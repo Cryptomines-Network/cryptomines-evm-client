@@ -112,9 +112,9 @@ func newContract(client *rpc.Client) (common.Address, *checkpointoracle.Checkpoi
 
 // newClefSigner sets up a cryptomines-clef backend and returns a cryptomines-clef transaction signer.
 func newClefSigner(ctx *cli.Context) *bind.TransactOpts {
-	cryptomines - clef, err := external.NewExternalSigner(ctx.String(clefURLFlag.Name))
+	clef, err := external.NewExternalSigner(ctx.String(clefURLFlag.Name))
 	if err != nil {
 		utils.Fatalf("Failed to create cryptomines-clef signer %v", err)
 	}
-	return bind.NewClefTransactor(cryptomines-clef, accounts.Account{Address: common.HexToAddress(ctx.String(signerFlag.Name))})
+	return bind.NewClefTransactor(clef, accounts.Account{Address: common.HexToAddress(ctx.String(signerFlag.Name))})
 }
