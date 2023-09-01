@@ -71,7 +71,7 @@ var (
 		"COPYING",
 		executablePath("cryptomines-abigen"),
 		executablePath("cryptomines-bootnode"),
-		executablePath("evm"),
+		executablePath("cryptomines-evm"),
 		executablePath("cryptomines-geth"),
 		executablePath("cryptomines-rlpdump"),
 		executablePath("cryptomines-clef"),
@@ -88,7 +88,7 @@ var (
 			Description: "Cryptomines evm chain bootnode.",
 		},
 		{
-			BinaryName:  "evm",
+			BinaryName:  "cryptomines-evm",
 			Description: "Developer utility version of the EVM that is capable of running bytecode snippets within a configurable environment and execution mode.",
 		},
 		{
