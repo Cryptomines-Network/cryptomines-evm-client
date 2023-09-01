@@ -363,10 +363,10 @@ func loadTreeDefinitionForExport(dir string) (domain string, t *dnsdisc.Tree, er
 // tree's signature if valid.
 func ensureValidTreeSignature(t *dnsdisc.Tree, pubkey *ecdsa.PublicKey, sig string) error {
 	if sig == "" {
-		return fmt.Errorf("missing signature, run 'devp2p dns sign' first")
+		return fmt.Errorf("missing signature, run 'cryptomines-devp2p dns sign' first")
 	}
 	if err := t.SetSignature(pubkey, sig); err != nil {
-		return fmt.Errorf("invalid signature on tree, run 'devp2p dns sign' to update it")
+		return fmt.Errorf("invalid signature on tree, run 'cryptomines-devp2p dns sign' to update it")
 	}
 	return nil
 }
