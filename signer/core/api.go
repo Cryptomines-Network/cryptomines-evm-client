@@ -91,10 +91,10 @@ type UIClientAPI interface {
 	// OnSignerStartup is invoked when the signer boots, and tells the UI info about external API location and version
 	// information
 	OnSignerStartup(info StartupInfo)
-	// OnInputRequired is invoked when clef requires user input, for example master password or
+	// OnInputRequired is invoked when cryptomines-clef requires user input, for example master password or
 	// pin-code for unlocking hardware wallets
 	OnInputRequired(info UserInputRequest) (UserInputResponse, error)
-	// RegisterUIServer tells the UI to use the given UIServerAPI for ui->clef communication
+	// RegisterUIServer tells the UI to use the given UIServerAPI for ui->cryptomines-clef communication
 	RegisterUIServer(api *UIServerAPI)
 }
 
@@ -185,7 +185,7 @@ func StartClefAccountManager(ksLocation string, nousb, lightKDF bool, scpath str
 		}
 	}
 
-	// Clef doesn't allow insecure http account unlock.
+	// Cryptomines-Clef doesn't allow insecure http account unlock.
 	return accounts.NewManager(&accounts.Config{InsecureUnlockAllowed: false}, backends...)
 }
 
@@ -285,7 +285,7 @@ var ErrRequestDenied = errors.New("request denied")
 // ledger and trezor.
 func NewSignerAPI(am *accounts.Manager, chainID int64, noUSB bool, ui UIClientAPI, validator Validator, advancedMode bool, credentials storage.Storage) *SignerAPI {
 	if advancedMode {
-		log.Info("Clef is in advanced mode: will warn instead of reject")
+		log.Info("Cryptomines-Clef is in advanced mode: will warn instead of reject")
 	}
 	signer := &SignerAPI{big.NewInt(chainID), am, ui, validator, !advancedMode, credentials}
 	if !noUSB {

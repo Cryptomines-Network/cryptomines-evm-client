@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
 
-// This file is a test-utility for testing clef-functionality
+// This file is a test-utility for testing cryptomines-clef-functionality
 //
-// Start clef with
+// Start cryptomines-clef with
 //
-// build/bin/clef --4bytedb=./cmd/clef/4byte.json --rpc
+// build/bin/cryptomines-clef --4bytedb=./cmd/cryptomines-clef/4byte.json --rpc
 //
 // Start geth with
 //
-// build/bin/geth --nodiscover --maxpeers 0 --signer http://localhost:8550 console --preload=cmd/clef/tests/testsigner.js
+// build/bin/geth --nodiscover --maxpeers 0 --signer http://localhost:8550 console --preload=cmd/cryptomines-clef/tests/testsigner.js
 //
 // and in the console simply invoke
 //
@@ -31,7 +31,7 @@
 // You can reload the file via `reload()`
 
 function reload(){
-	loadScript("./cmd/clef/tests/testsigner.js");
+	loadScript("./cmd/cryptomines-clef/tests/testsigner.js");
 }
 
 function init(){

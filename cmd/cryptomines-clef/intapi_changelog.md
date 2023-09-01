@@ -30,7 +30,7 @@ Added `clef_New` to the internal API callable from a UI.
 
 Removed `password` from responses to operations which require them. This is for two reasons,
 
-- Consistency between how rulesets operate and how manual processing works. A rule can `Approve` but require the actual password to be stored in the clef storage.
+- Consistency between how rulesets operate and how manual processing works. A rule can `Approve` but require the actual password to be stored in the cryptomines-clef storage.
 With this change, the same stored password can be used even if rulesets are not enabled, but storage is.
 - It also removes the usability-shortcut that a UI might otherwise want to implement; remembering passwords. Since we now will not require the
 password on every `Approve`, there's no need for the UI to cache it locally.
@@ -41,7 +41,7 @@ Affected datatypes:
 - `SignDataResponse`
 - `NewAccountResponse`
 
-If `clef` requires a password, the `OnInputRequired` will be used to collect it.
+If `cryptomines-clef` requires a password, the `OnInputRequired` will be used to collect it.
 
 
 ### 5.0.0
@@ -63,7 +63,7 @@ Changed the namespace format to adhere to the legacy ethereum format: `name_meth
 
 ### 4.0.0
 
-* Bidirectional communication implemented, so the UI can query `clef` via the stdin/stdout RPC channel. Methods implemented are:
+* Bidirectional communication implemented, so the UI can query `cryptomines-clef` via the stdin/stdout RPC channel. Methods implemented are:
   - `clef_listWallets`
   - `clef_listAccounts`
   - `clef_listWallets`
@@ -102,7 +102,7 @@ type Account struct {
 
 ### 2.1.0
 
-* Add `OnInputRequired(info UserInputRequest)` to internal API. This method is used when Clef needs user input, e.g. passwords.
+* Add `OnInputRequired(info UserInputRequest)` to internal API. This method is used when Cryptomines-Clef needs user input, e.g. passwords.
 
 The following structures are used:
 

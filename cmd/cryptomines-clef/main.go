@@ -61,13 +61,13 @@ import (
 const legalWarning = `
 WARNING!
 
-Clef is an account management tool. It may, like any software, contain bugs.
+Cryptomines-Clef is an account management tool. It may, like any software, contain bugs.
 
 Please take care to
 - backup your keystore files,
 - verify that the keystore(s) can be opened with your password.
 
-Clef is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+Cryptomines-Clef is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE. See the GNU General Public License for more details.
 `
@@ -94,7 +94,7 @@ var (
 	configdirFlag = &cli.StringFlag{
 		Name:  "configdir",
 		Value: DefaultConfigDir(),
-		Usage: "Directory for Clef configuration",
+		Usage: "Directory for Cryptomines-Clef configuration",
 	}
 	chainIdFlag = &cli.Int64Flag{
 		Name:  "chainid",
@@ -109,7 +109,7 @@ var (
 	}
 	signerSecretFlag = &cli.StringFlag{
 		Name:  "signersecret",
-		Usage: "A file containing the (encrypted) master seed to encrypt Clef data, e.g. keystore credentials and ruleset hash",
+		Usage: "A file containing the (encrypted) master seed to encrypt Cryptomines-Clef data, e.g. keystore credentials and ruleset hash",
 	}
 	customDBFlag = &cli.StringFlag{
 		Name:  "4bytedb-custom",
@@ -129,11 +129,11 @@ var (
 		Name: "stdio-ui",
 		Usage: "Use STDIN/STDOUT as a channel for an external UI. " +
 			"This means that an STDIN/STDOUT is used for RPC-communication with a e.g. a graphical user " +
-			"interface, and can be used when Clef is started by an external process.",
+			"interface, and can be used when Cryptomines-Clef is started by an external process.",
 	}
 	testFlag = &cli.BoolFlag{
 		Name:  "stdio-ui-test",
-		Usage: "Mechanism to test interface between Clef and UI. Requires 'stdio-ui'.",
+		Usage: "Mechanism to test interface between Cryptomines-Clef and UI. Requires 'stdio-ui'.",
 	}
 	initCommand = &cli.Command{
 		Action:    initializeSecrets,
@@ -145,7 +145,7 @@ var (
 			configdirFlag,
 		},
 		Description: `
-The init command generates a master seed which Clef can use to store credentials and data needed for
+The init command generates a master seed which Cryptomines-Clef can use to store credentials and data needed for
 the rule-engine to work.`,
 	}
 	attestCommand = &cli.Command{
@@ -163,7 +163,7 @@ The attest command stores the sha256 of the rule.js-file that you want to use fo
 incoming requests.
 
 Whenever you make an edit to the rule file, you need to use attestation to tell
-Clef that the file is 'safe' to execute.`,
+Cryptomines-Clef that the file is 'safe' to execute.`,
 	}
 	setCredentialCommand = &cli.Command{
 		Action:    setCredential,
@@ -229,7 +229,7 @@ The gendoc generates example structures of the json-rpc communication types.
 	listWalletsCommand = &cli.Command{
 		Action: listWallets,
 		Name:   "list-wallets",
-		Usage:  "List wallets known to Clef",
+		Usage:  "List wallets known to Cryptomines-Clef",
 		Flags: []cli.Flag{
 			logLevelFlag,
 			keystoreFlag,
@@ -237,7 +237,7 @@ The gendoc generates example structures of the json-rpc communication types.
 			acceptFlag,
 		},
 		Description: `
-	Lists the wallets known to Clef.
+	Lists the wallets known to Cryptomines-Clef.
 	`}
 	importRawCommand = &cli.Command{
 		Action:    accountImport,
@@ -261,7 +261,7 @@ The account is saved in encrypted format, you are prompted for a password.
 var app = flags.NewApp("Manage Ethereum account operations")
 
 func init() {
-	app.Name = "Clef"
+	app.Name = "Cryptomines-Clef"
 	app.Flags = []cli.Flag{
 		logLevelFlag,
 		keystoreFlag,
@@ -332,7 +332,7 @@ func initializeSecrets(c *cli.Context) error {
 	if c.Bool(utils.LightKDFFlag.Name) {
 		n, p = keystore.LightScryptN, keystore.LightScryptP
 	}
-	text := "The master seed of clef will be locked with a password.\nPlease specify a password. Do not forget this password!"
+	text := "The master seed of cryptomines-clef will be locked with a password.\nPlease specify a password. Do not forget this password!"
 	var password string
 	for {
 		password = utils.GetPassPhrase(text, true)
@@ -758,7 +758,7 @@ func signer(c *cli.Context) error {
 	}
 	if !c.Bool(utils.IPCDisabledFlag.Name) {
 		givenPath := c.String(utils.IPCPathFlag.Name)
-		ipcapiURL = ipcEndpoint(filepath.Join(givenPath, "clef.ipc"), configDir)
+		ipcapiURL = ipcEndpoint(filepath.Join(givenPath, "cryptomines-clef.ipc"), configDir)
 		listener, _, err := rpc.StartIPCEndpoint(ipcapiURL, rpcAPI)
 		if err != nil {
 			utils.Fatalf("Could not start IPC api: %v", err)
@@ -805,7 +805,7 @@ func DefaultConfigDir() string {
 			}
 			return filepath.Join(home, "AppData", "Roaming", "Signer")
 		}
-		return filepath.Join(home, ".clef")
+		return filepath.Join(home, ".cryptomines-clef")
 	}
 	// As we cannot guess a stable location, return empty and handle later
 	return ""
@@ -840,11 +840,11 @@ func readMasterKey(ctx *cli.Context, ui core.UIClientAPI) ([]byte, error) {
 		}
 		password = resp.Text
 	} else {
-		password = utils.GetPassPhrase("Decrypt master seed of clef", false)
+		password = utils.GetPassPhrase("Decrypt master seed of cryptomines-clef", false)
 	}
 	masterSeed, err := decryptSeed(cipherKey, password)
 	if err != nil {
-		return nil, fmt.Errorf("failed to decrypt the master seed of clef")
+		return nil, fmt.Errorf("failed to decrypt the master seed of cryptomines-clef")
 	}
 	if len(masterSeed) < 256 {
 		return nil, fmt.Errorf("master seed of insufficient length, expected >255 bytes, got %d", len(masterSeed))
@@ -891,7 +891,7 @@ func confirm(text string) bool {
 }
 
 func testExternalUI(api *core.SignerAPI) {
-	ctx := context.WithValue(context.Background(), "remote", "clef binary")
+	ctx := context.WithValue(context.Background(), "remote", "cryptomines-clef binary")
 	ctx = context.WithValue(ctx, "scheme", "in-proc")
 	ctx = context.WithValue(ctx, "local", "main")
 	errs := make([]string, 0)
@@ -1047,7 +1047,7 @@ func encryptSeed(seed []byte, auth []byte, scryptN, scryptP int) ([]byte, error)
 	if err != nil {
 		return nil, err
 	}
-	return json.Marshal(&encryptedSeedStorage{"Clef seed", 1, cryptoStruct})
+	return json.Marshal(&encryptedSeedStorage{"Cryptomines-Clef seed", 1, cryptoStruct})
 }
 
 // decryptSeed decrypts the master seed
@@ -1090,7 +1090,7 @@ func GenDoc(ctx *cli.Context) error {
 
 	{ // Sign plain text request
 		desc := "SignDataRequest contains information about a pending request to sign some data. " +
-			"The data to be signed can be of various types, defined by content-type. Clef has done most " +
+			"The data to be signed can be of various types, defined by content-type. Cryptomines-Clef has done most " +
 			"of the work in canonicalizing and making sense of the data, and it's up to the UI to present" +
 			"the user with the contents of the `message`"
 		sighash, msg := accounts.TextAndHash([]byte("hello world"))
@@ -1117,9 +1117,9 @@ func GenDoc(ctx *cli.Context) error {
 			"\n\n" +
 			"As in any request, it's important to consider that the `meta` info also contains untrusted data." +
 			"\n\n" +
-			"The `transaction` (on input into clef) can have either `data` or `input` -- if both are set, " +
+			"The `transaction` (on input into cryptomines-clef) can have either `data` or `input` -- if both are set, " +
 			"they must be identical, otherwise an error is generated. " +
-			"However, Clef will always use `data` when passing this struct on (if Clef does otherwise, please file a ticket)"
+			"However, Cryptomines-Clef will always use `data` when passing this struct on (if Cryptomines-Clef does otherwise, please file a ticket)"
 
 		data := hexutil.Bytes([]byte{0x01, 0x02, 0x03, 0x04})
 		add("SignTxRequest", desc, &core.SignTxRequest{
@@ -1159,7 +1159,7 @@ func GenDoc(ctx *cli.Context) error {
 			&core.SignTxResponse{})
 	}
 	{ // WHen a signed tx is ready to go out
-		desc := "SignTransactionResult is used in the call `clef` -> `OnApprovedTx(result)`" +
+		desc := "SignTransactionResult is used in the call `cryptomines-clef` -> `OnApprovedTx(result)`" +
 			"\n\n" +
 			"This occurs _after_ successful completion of the entire signing procedure, but right before the signed " +
 			"transaction is passed to the external caller. This method (and data) can be used by the UI to signal " +
@@ -1168,7 +1168,7 @@ func GenDoc(ctx *cli.Context) error {
 			"A ruleset that implements a rate limitation needs to know what transactions are sent out to the external " +
 			"interface. By hooking into this methods, the ruleset can maintain track of that count." +
 			"\n\n" +
-			"**OBS:** Note that if an attacker can restore your `clef` data to a previous point in time" +
+			"**OBS:** Note that if an attacker can restore your `cryptomines-clef` data to a previous point in time" +
 			" (e.g through a backup), the attacker can reset such windows, even if he/she is unable to decrypt the content. " +
 			"\n\n" +
 			"The `OnApproved` method cannot be responded to, it's purely informative"
@@ -1179,7 +1179,7 @@ func GenDoc(ctx *cli.Context) error {
 		add("OnApproved - SignTransactionResult", desc, &ethapi.SignTransactionResult{Raw: rlpdata, Tx: &tx})
 	}
 	{ // User input
-		add("UserInputRequest", "Sent when clef needs the user to provide data. If 'password' is true, the input field should be treated accordingly (echo-free)",
+		add("UserInputRequest", "Sent when cryptomines-clef needs the user to provide data. If 'password' is true, the input field should be treated accordingly (echo-free)",
 			&core.UserInputRequest{IsPassword: true, Title: "The title here", Prompt: "The question to ask the user"})
 		add("UserInputResponse", "Response to UserInputRequest",
 			&core.UserInputResponse{Text: "The textual response from user"})
@@ -1211,7 +1211,7 @@ func GenDoc(ctx *cli.Context) error {
 
 	fmt.Println(`## UI Client interface
 
-These data types are defined in the channel between clef and the UI`)
+These data types are defined in the channel between cryptomines-clef and the UI`)
 	for _, elem := range output {
 		fmt.Println(elem)
 	}

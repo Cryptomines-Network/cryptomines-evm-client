@@ -74,7 +74,7 @@ var (
 		executablePath("evm"),
 		executablePath("cryptomines-geth"),
 		executablePath("rlpdump"),
-		executablePath("clef"),
+		executablePath("cryptomines-clef"),
 	}
 
 	// A debian package is created for all executables listed here.
@@ -100,7 +100,7 @@ var (
 			Description: "Developer utility tool that prints RLP structures.",
 		},
 		{
-			BinaryName:  "clef",
+			BinaryName:  "cryptomines-clef",
 			Description: "Cryptomines account management tool.",
 		},
 	}

@@ -67,13 +67,13 @@ var (
 		Usage: "The rpc endpoint of a local or remote geth node",
 	}
 	clefURLFlag = &cli.StringFlag{
-		Name:  "clef",
+		Name:  "cryptomines-clef",
 		Value: "http://localhost:8550",
-		Usage: "The rpc endpoint of clef",
+		Usage: "The rpc endpoint of cryptomines-clef",
 	}
 	signerFlag = &cli.StringFlag{
 		Name:  "signer",
-		Usage: "Signer address for clef signing",
+		Usage: "Signer address for cryptomines-clef signing",
 	}
 	signersFlag = &cli.StringFlag{
 		Name:  "signers",

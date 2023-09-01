@@ -106,7 +106,7 @@ type NodeConfig struct {
 	// These values need to be checked and acted upon by node Services
 	Properties []string
 
-	// ExternalSigner specifies an external URI for a clef-type signer
+	// ExternalSigner specifies an external URI for a cryptomines-clef-type signer
 	ExternalSigner string
 
 	// Enode

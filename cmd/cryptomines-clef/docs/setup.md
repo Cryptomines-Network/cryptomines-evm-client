@@ -1,6 +1,6 @@
-# Setting up Clef
+# Setting up Cryptomines-Clef
 
-This document describes how Clef can be used in a more secure manner than executing it from your everyday laptop, 
+This document describes how Cryptomines-Clef can be used in a more secure manner than executing it from your everyday laptop, 
 in order to ensure that the keys remain safe in the event that your computer should get compromised. 
 
 ## Qubes OS
@@ -24,7 +24,7 @@ A couple of dedicated virtual machines handle externalities:
 - sys-firewall handles firewall rules
 - sys-usb handles USB devices, and can map usb-devices to certain qubes.
 
-The goal of this document is to describe how we can set up clef to provide secure transaction
+The goal of this document is to describe how we can set up cryptomines-clef to provide secure transaction
 signing from a `vault` vm, to another networked qube which runs Dapps.
 
 ### Setup
@@ -42,11 +42,11 @@ to another qube. The OS then asks the user if the call is permitted.
 A policy-file can be created to allow such interaction. On the `target` domain, a service is invoked which can read the
 `stdin` from the `client` qube. 
 
-This is how [Split GPG](https://www.qubes-os.org/doc/split-gpg/) is implemented. We can set up Clef the same way:
+This is how [Split GPG](https://www.qubes-os.org/doc/split-gpg/) is implemented. We can set up Cryptomines-Clef the same way:
 
 ##### Server
 
-![Clef via qrexec](qubes/clef_qubes_qrexec.png)
+![Cryptomines-Clef via qrexec](qubes/clef_qubes_qrexec.png)
 
 On the `target` qubes, we need to define the RPC service.
 
@@ -55,27 +55,27 @@ On the `target` qubes, we need to define the RPC service.
 ```bash
 #!/bin/bash
 
-SIGNER_BIN="/home/user/tools/clef/clef"
+SIGNER_BIN="/home/user/tools/cryptomines-clef/cryptomines-clef"
 SIGNER_CMD="/home/user/tools/gtksigner/gtkui.py -s $SIGNER_BIN"
 
-# Start clef if not already started
-if [ ! -S /home/user/.clef/clef.ipc ]; then
+# Start cryptomines-clef if not already started
+if [ ! -S /home/user/.cryptomines-clef/cryptomines-clef.ipc ]; then
 	$SIGNER_CMD &
 	sleep 1
 fi
 
 # Should be started by now
-if [ -S /home/user/.clef/clef.ipc ]; then
+if [ -S /home/user/.cryptomines-clef/cryptomines-clef.ipc ]; then
     # Post incoming request to HTTP channel
 	curl -H "Content-Type: application/json" -X POST -d @- http://localhost:8550 2>/dev/null
 fi
 
 ```
 This RPC service is not complete (see notes about HTTP headers below), but works as a proof-of-concept. 
-It will forward the data received on `stdin` (forwarded by the OS) to Clef's HTTP channel.  
+It will forward the data received on `stdin` (forwarded by the OS) to Cryptomines-Clef's HTTP channel.  
 
-It would have been possible to send data directly to the `/home/user/.clef/.clef.ipc` 
-socket via e.g `nc -U /home/user/.clef/clef.ipc`, but the reason for sending the request 
+It would have been possible to send data directly to the `/home/user/.cryptomines-clef/.cryptomines-clef.ipc` 
+socket via e.g `nc -U /home/user/.cryptomines-clef/cryptomines-clef.ipc`, but the reason for sending the request 
 data over `HTTP` instead of `IPC` is that we want the ability to forward `HTTP` headers.
 
 To enable the service:
@@ -150,7 +150,7 @@ To test the full flow, we use the client wrapper. Start it on the `client` qube:
 
 Make the request over http (`client` qube):
 ```
-[user@work clef]$ cat newaccnt.json | curl -X POST -d @- http://localhost:8550
+[user@work cryptomines-clef]$ cat newaccnt.json | curl -X POST -d @- http://localhost:8550
 ```
 And it should show the same popups again. 
 
@@ -167,19 +167,19 @@ However, it comes with a couple of drawbacks:
   will either drop important headers, or replace them. 
   - The `Host` header is most likely `localhost` 
   - The `Origin` header must be forwarded
-  - Information about the remote ip must be added as a `X-Forwarded-For`. However, Clef cannot always trust an `XFF` header, 
+  - Information about the remote ip must be added as a `X-Forwarded-For`. However, Cryptomines-Clef cannot always trust an `XFF` header, 
   since malicious clients may lie about `XFF` in order to fool the http server into believing it comes from another address.
 - Even with a policy in place to allow RPC calls between `caller` and `target`, there will be several popups:
   - One qubes-specific where the user specifies the `target` vm
-  - One clef-specific to approve the transaction
+  - One cryptomines-clef-specific to approve the transaction
   
 
 #### 2. Network integrated
 
-The second way to set up Clef on a qubes system is to allow networking, and have Clef listen to a port which is accessible
+The second way to set up Cryptomines-Clef on a qubes system is to allow networking, and have Cryptomines-Clef listen to a port which is accessible
 from other qubes. 
 
-![Clef via http](qubes/clef_qubes_http.png)
+![Cryptomines-Clef via http](qubes/clef_qubes_http.png)
 
 
 
@@ -190,7 +190,7 @@ The [USB armory](https://inversepath.com/usbarmory) is an open source hardware d
 computer. When inserted into a laptop, it identifies itself as a USB network interface, basically adding another network
 to your computer. Over this new network interface, you can SSH into the device. 
 
-Running Clef off a USB armory means that you can use the armory as a very versatile offline computer, which only
+Running Cryptomines-Clef off a USB armory means that you can use the armory as a very versatile offline computer, which only
 ever connects to a local network between your computer and the device itself.
 
 Needless to say, while this model should be fairly secure against remote attacks, an attacker with physical access
