@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/ethereum/go-ethereum/cmd/devp2p/internal/ethtest"
+	"github.com/ethereum/go-ethereum/cmd/cryptomines-devp2p/internal/ethtest"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/p2p/rlpx"

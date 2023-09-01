@@ -509,7 +509,7 @@ of encoding should always be accepted.
 
 ## Testing
 
-There are many test cases in the [`cmd/evm/testdata`](./testdata) directory.
+There are many test cases in the [`cmd/cryptomines-evm/testdata`](./testdata) directory.
 These fixtures are used to power the `t8n` tests in
 [`t8n_test.go`](./t8n_test.go). The best way to verify correctness of new `evm`
 implementations is to execute these and verify the output and error codes match
