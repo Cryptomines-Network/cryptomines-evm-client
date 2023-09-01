@@ -1902,7 +1902,7 @@ var bindTests = []struct {
 			if err := contract.Error(new(bind.CallOpts)); err == nil {
 				t.Fatalf("expected contract to throw error")
 			}
-			// TODO (MariusVanDerWijden unpack error using abigen
+			// TODO (MariusVanDerWijden unpack error using cryptomines-abigen
 			// once that is implemented
 	   `,
 		nil,

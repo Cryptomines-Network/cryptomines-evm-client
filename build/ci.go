@@ -69,7 +69,7 @@ var (
 	// Files that end up in the geth-alltools*.zip archive.
 	allToolsArchiveFiles = []string{
 		"COPYING",
-		executablePath("abigen"),
+		executablePath("cryptomines-abigen"),
 		executablePath("bootnode"),
 		executablePath("evm"),
 		executablePath("cryptomines-geth"),
@@ -80,7 +80,7 @@ var (
 	// A debian package is created for all executables listed here.
 	debExecutables = []debExecutable{
 		{
-			BinaryName:  "abigen",
+			BinaryName:  "cryptomines-abigen",
 			Description: "Source code generator to convert Cryptomines contract definitions into easy to use, compile-time type-safe Go packages.",
 		},
 		{
@@ -122,11 +122,11 @@ var (
 	// Note: the following Ubuntu releases have been officially deprecated on Launchpad:
 	//   wily, yakkety, zesty, artful, cosmic, disco, eoan, groovy, hirsuite, impish
 	debDistroGoBoots = map[string]string{
-		"stable":   "golang-go",
+		"stable": "golang-go",
 	}
 
 	debGoBootPaths = map[string]string{
-		"golang-go":   "/usr/lib/go",
+		"golang-go": "/usr/lib/go",
 	}
 
 	// This is the version of Go that will be downloaded by
@@ -716,7 +716,6 @@ func downloadGoSources(cachedir string) string {
 	}
 	return dst
 }
-
 
 func getenvBase64(variable string) []byte {
 	dec, err := base64.StdEncoding.DecodeString(os.Getenv(variable))

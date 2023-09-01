@@ -104,7 +104,7 @@ func deploy(ctx *cli.Context) error {
 	}
 	fmt.Printf("\nSignatures needed to publish: %d\n", needed)
 
-	// setup clef signer, create an abigen transactor and an RPC client
+	// setup clef signer, create an cryptomines-abigen transactor and an RPC client
 	transactor, client := newClefSigner(ctx), newClient(ctx)
 
 	// Deploy the checkpoint oracle

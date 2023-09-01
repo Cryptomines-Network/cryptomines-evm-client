@@ -34,7 +34,7 @@ import (
 )
 
 var (
-	// Flags needed by abigen
+	// Flags needed by cryptomines-abigen
 	abiFlag = &cli.StringFlag{
 		Name:  "abi",
 		Usage: "Path to the Ethereum contract ABI json to bind, - for STDIN",
@@ -77,7 +77,7 @@ var (
 var app = flags.NewApp("Ethereum ABI wrapper code generator")
 
 func init() {
-	app.Name = "abigen"
+	app.Name = "cryptomines-abigen"
 	app.Flags = []cli.Flag{
 		abiFlag,
 		binFlag,
@@ -89,10 +89,10 @@ func init() {
 		langFlag,
 		aliasFlag,
 	}
-	app.Action = abigen
+	app.Action = cryptomines-abigen
 }
 
-func abigen(c *cli.Context) error {
+func cryptomines-abigen(c *cli.Context) error {
 	utils.CheckExclusive(c, abiFlag, jsonFlag) // Only one source can be selected.
 
 	if c.String(pkgFlag.Name) == "" {
