@@ -57,7 +57,7 @@ func (eb *ExternalBackend) Subscribe(sink chan<- accounts.WalletEvent) event.Sub
 	})
 }
 
-// ExternalSigner provides an API to interact with an external signer (clef)
+// ExternalSigner provides an API to interact with an external signer (cryptomines-clef)
 // It proxies request to the external signer while forwarding relevant
 // request headers
 type ExternalSigner struct {
@@ -179,14 +179,14 @@ func (api *ExternalSigner) SignText(account accounts.Account, text []byte) ([]by
 		return nil, err
 	}
 	if signature[64] == 27 || signature[64] == 28 {
-		// If clef is used as a backend, it may already have transformed
+		// If cryptomines-clef is used as a backend, it may already have transformed
 		// the signature to ethereum-type signature.
 		signature[64] -= 27 // Transform V from Ethereum-legacy to 0/1
 	}
 	return signature, nil
 }
 
-// signTransactionResult represents the signinig result returned by clef.
+// signTransactionResult represents the signinig result returned by cryptomines-clef.
 type signTransactionResult struct {
 	Raw hexutil.Bytes      `json:"raw"`
 	Tx  *types.Transaction `json:"tx"`

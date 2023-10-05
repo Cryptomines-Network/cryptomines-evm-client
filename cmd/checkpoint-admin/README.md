@@ -43,10 +43,10 @@ go get github.com/ethereum/go-ethereum/cmd/checkpoint-admin
 Deploy checkpoint oracle contract. `--signers` indicates the specified trusted signer, and `--threshold` indicates the minimum number of signatures required by trusted signers to update a checkpoint.
 
 ```shell
-checkpoint-admin deploy --rpc <NODE_RPC_ENDPOINT> --clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_TX> --signers <TRUSTED_SIGNER_LIST> --threshold 1
+checkpoint-admin deploy --rpc <NODE_RPC_ENDPOINT> --cryptomines-clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_TX> --signers <TRUSTED_SIGNER_LIST> --threshold 1
 ```
 
-It is worth noting that checkpoint-admin only supports clef as a signer for transactions and plain text(checkpoint). For more clef usage, please see the clef [tutorial](https://geth.ethereum.org/docs/tools/clef/tutorial) .
+It is worth noting that checkpoint-admin only supports cryptomines-clef as a signer for transactions and plain text(checkpoint). For more cryptomines-clef usage, please see the cryptomines-clef [tutorial](https://geth.ethereum.org/docs/tools/cryptomines-clef/tutorial) .
 
 #### Sign
 
@@ -55,7 +55,7 @@ Checkpoint-admin provides two different modes of signing. You can automatically 
 **Interactive mode**
 
 ```shell
-checkpoint-admin sign --clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_CHECKPOINT> --rpc <NODE_RPC_ENDPOINT>
+checkpoint-admin sign --cryptomines-clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_CHECKPOINT> --rpc <NODE_RPC_ENDPOINT>
 ```
 
 *It is worth noting that the connected Geth node can be a fullnode or a light client. If it is fullnode, you must enable the LES protocol. E.G. add `--light.serv 50` to the startup command line flags*.
@@ -63,7 +63,7 @@ checkpoint-admin sign --clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_CHECKPOINT
 **Offline mode**
 
 ```shell
-checkpoint-admin sign --clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_CHECKPOINT> --index <CHECKPOINT_INDEX> --hash <CHECKPOINT_HASH> --oracle <CHECKPOINT_ORACLE_ADDRESS>
+checkpoint-admin sign --cryptomines-clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_CHECKPOINT> --index <CHECKPOINT_INDEX> --hash <CHECKPOINT_HASH> --oracle <CHECKPOINT_ORACLE_ADDRESS>
 ```
 
 *CHECKPOINT_HASH is obtained based on this [calculation method](https://github.com/ethereum/go-ethereum/blob/master/params/config.go#L251).*
@@ -73,7 +73,7 @@ checkpoint-admin sign --clef <CLEF_ENDPOINT> --signer <SIGNER_TO_SIGN_CHECKPOINT
 Collect enough signatures from different trusted signers for the same checkpoint and submit them to oracle to update the "authenticated" checkpoint in the contract.
 
 ```shell
-checkpoint-admin publish --clef <CLEF_ENDPOINT> --rpc <NODE_RPC_ENDPOINT> --signer <SIGNER_TO_SIGN_TX> --index <CHECKPOINT_INDEX> --signatures <CHECKPOINT_SIGNATURE_LIST>
+checkpoint-admin publish --cryptomines-clef <CLEF_ENDPOINT> --rpc <NODE_RPC_ENDPOINT> --signer <SIGNER_TO_SIGN_TX> --index <CHECKPOINT_INDEX> --signatures <CHECKPOINT_SIGNATURE_LIST>
 ```
 
 #### Status query

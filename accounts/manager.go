@@ -32,7 +32,7 @@ const managerSubBufferSize = 50
 // Config contains the settings of the global account manager.
 //
 // TODO(rjl493456442, karalabe, holiman): Get rid of this when account management
-// is removed in favor of Clef.
+// is removed in favor of Cryptomines-Clef.
 type Config struct {
 	InsecureUnlockAllowed bool // Whether account unlocking in insecure environment is allowed
 }

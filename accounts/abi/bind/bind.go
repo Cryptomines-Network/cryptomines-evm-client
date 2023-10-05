@@ -115,7 +115,7 @@ func Bind(types []string, abis []string, bytecodes []string, fsigs []map[string]
 			receive   *tmplMethod
 
 			// identifiers are used to detect duplicated identifiers of functions
-			// and events. For all calls, transacts and events, abigen will generate
+			// and events. For all calls, transacts and events, cryptomines-abigen will generate
 			// corresponding bindings. However we have to ensure there is no
 			// identifier collisions in the bindings of these categories.
 			callIdentifiers     = make(map[string]bool)

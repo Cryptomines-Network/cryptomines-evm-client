@@ -7,7 +7,7 @@
 #
 # The created installer executes the following steps:
 # 1. install geth for all users
-# 2. install optional development tools such as abigen
+# 2. install optional development tools such as cryptomines-abigen
 # 3. create an uninstaller
 # 4. configures the Windows firewall for geth
 # 5. create geth, attach and uninstall start menu entries

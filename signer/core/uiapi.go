@@ -31,7 +31,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
-// SignerUIAPI implements methods Clef provides for a UI to query, in the bidirectional communication
+// SignerUIAPI implements methods Cryptomines-Clef provides for a UI to query, in the bidirectional communication
 // channel.
 // This API is considered secure, since a request can only
 // ever arrive from the UI -- and the UI is capable of approving any action, thus we can consider these
@@ -69,7 +69,7 @@ type rawWallet struct {
 	Accounts []accounts.Account `json:"accounts,omitempty"`
 }
 
-// ListWallets will return a list of wallets that clef manages
+// ListWallets will return a list of wallets that cryptomines-clef manages
 // Example call
 // {"jsonrpc":"2.0","method":"clef_listWallets","params":[], "id":5}
 func (s *UIServerAPI) ListWallets() []rawWallet {

@@ -104,11 +104,11 @@ func deploy(ctx *cli.Context) error {
 	}
 	fmt.Printf("\nSignatures needed to publish: %d\n", needed)
 
-	// setup clef signer, create an abigen transactor and an RPC client
+	// setup cryptomines-clef signer, create an cryptomines-abigen transactor and an RPC client
 	transactor, client := newClefSigner(ctx), newClient(ctx)
 
 	// Deploy the checkpoint oracle
-	fmt.Println("Sending deploy request to Clef...")
+	fmt.Println("Sending deploy request to Cryptomines-Clef...")
 	oracle, tx, _, err := contract.DeployCheckpointOracle(transactor, client, addrs, big.NewInt(int64(params.CheckpointFrequency)),
 		big.NewInt(int64(params.CheckpointProcessConfirmations)), big.NewInt(int64(needed)))
 	if err != nil {
@@ -201,7 +201,7 @@ func sign(ctx *cli.Context) error {
 	fmt.Printf("Oracle     => %s\n", address.Hex())
 	fmt.Printf("Index %4d => %s\n", cindex, chash.Hex())
 
-	// Sign checkpoint in clef mode.
+	// Sign checkpoint in cryptomines-clef mode.
 	signer = ctx.String(signerFlag.Name)
 
 	if !offline {
@@ -216,7 +216,7 @@ func sign(ctx *cli.Context) error {
 	p["address"] = address.Hex()
 	p["message"] = hexutil.Encode(append(buf, chash.Bytes()...))
 
-	fmt.Println("Sending signing request to Clef...")
+	fmt.Println("Sending signing request to Cryptomines-Clef...")
 	if err := clef.Call(&signature, "account_signData", accounts.MimetypeDataWithValidator, signer, p); err != nil {
 		utils.Fatalf("Failed to sign checkpoint, err %v", err)
 	}
@@ -301,7 +301,7 @@ func publish(ctx *cli.Context) error {
 	fmt.Printf("Sentry number => %d\nSentry hash   => %s\n", recent.Number, recent.Hash().Hex())
 
 	// Publish the checkpoint into the oracle
-	fmt.Println("Sending publish request to Clef...")
+	fmt.Println("Sending publish request to Cryptomines-Clef...")
 	tx, err := oracle.RegisterCheckpoint(newClefSigner(ctx), checkpoint.SectionIndex, checkpoint.Hash().Bytes(), recent.Number, recent.Hash(), sigs)
 	if err != nil {
 		utils.Fatalf("Register contract failed %v", err)

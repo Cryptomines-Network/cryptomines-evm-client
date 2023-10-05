@@ -164,7 +164,7 @@ func NewKeyedTransactorWithChainID(key *ecdsa.PrivateKey, chainID *big.Int) (*Tr
 }
 
 // NewClefTransactor is a utility method to easily create a transaction signer
-// with a clef backend.
+// with a cryptomines-clef backend.
 func NewClefTransactor(clef *external.ExternalSigner, account accounts.Account) *TransactOpts {
 	return &TransactOpts{
 		From: account.Address,
@@ -172,7 +172,7 @@ func NewClefTransactor(clef *external.ExternalSigner, account accounts.Account) 
 			if address != account.Address {
 				return nil, ErrNotAuthorized
 			}
-			return clef.SignTx(account, transaction, nil) // Clef enforces its own chain id
+			return clef.SignTx(account, transaction, nil) // Cryptomines-Clef enforces its own chain id
 		},
 		Context: context.Background(),
 	}
